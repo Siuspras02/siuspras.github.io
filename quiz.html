@@ -60,7 +60,7 @@
         .quiz-image { max-width: 200px; border-radius: 8px; transition: filter 0.5s ease; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
         /* We use a heavy blur and boost the colors slightly to make it a fun color-palette guessing game */
         .silhouette-mode { 
-            filter: blur(12px) saturate(1.5) brightness(0.8); 
+            filter: blur(13px) saturate(1.5) brightness(0.8); 
             transform: scale(1.02); /* hides the fuzzy blurred edges */
         }
         .revealed-mode { filter: brightness(1); }
@@ -144,9 +144,14 @@
                 if (rows.length < 2) continue;
 
                 const headers = rows[0].map(h => h.replace(/"/g, '').trim().toLowerCase());
-                let textIdx = 8; 
+                let textIdx = 8;
+                let typeIdx = 3; 
+                let colorIdx = -1; // Track the color column!
+                
                 for (let i = 0; i < headers.length; i++) {
                     if (headers[i].includes("text")) textIdx = i;
+                    if (headers[i].includes("type")) typeIdx = i;
+                    if (headers[i].includes("color")) colorIdx = i; 
                 }
                 
                 for (let i = 1; i < rows.length; i++) {
@@ -160,9 +165,15 @@
                     if (match) cardName = match[1].trim();
                     
                     let rawSkills = cols[textIdx] || "None";
+                    let typeRaw = cols[typeIdx] || "Unknown";
+                    let colorRaw = colorIdx !== -1 ? (cols[colorIdx] || "") : "";
                     
                     combinedDatabase.push({
-                        card_name: cardName, card_id: setCode.trim(), skills_text: rawSkills
+                        card_name: cardName, 
+                        card_id: setCode.trim(), 
+                        skills_text: rawSkills,
+                        raw_type: typeRaw.toLowerCase(),
+                        card_color: colorRaw.toLowerCase() // Save the color!
                     });
                 }
             } catch (error) {}
@@ -185,6 +196,8 @@
         return shuffled.slice(0, count);
     }
 
+    // We don't need getRandomCards anymore, we do it all inside startQuiz now!
+
     function startQuiz(mode) {
         if (masterCardPool.length === 0) {
             alert("Database is still loading. Please wait a moment!");
@@ -194,17 +207,85 @@
         currentQuizMode = mode;
         document.getElementById("quiz-choices").innerHTML = "";
         
-        const choices = getRandomCards(4, mode === 'text');
-        correctCard = choices[0];
-        const shuffledChoices = [...choices].sort(() => 0.5 - Math.random());
+        let validPool = masterCardPool.filter(c => c.card_name && c.card_id);
+        if (mode === 'text') {
+            validPool = validPool.filter(c => c.skills_text && c.skills_text.length > 15 && c.skills_text !== "None");
+        }
+
+        // 1. Pick the Correct Answer
+        correctCard = validPool[Math.floor(Math.random() * validPool.length)];
+
+        // 2. Setup strict tracking for unique names
+        let wrongChoices = [];
+        let seenNames = new Set();
+        seenNames.add(correctCard.card_name.toLowerCase());
+
+        let shuffledPool = validPool.sort(() => 0.5 - Math.random());
+
+        // Helper function: Checks if a name is too similar to an already selected name
+        function isNameUnique(newName) {
+            let lowerNew = newName.toLowerCase();
+            for (let seen of seenNames) {
+                // If "Pekora" is in "Usada Pekora" or vice versa, reject it
+                if (lowerNew.includes(seen) || seen.includes(lowerNew)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // 3. ATTEMPT 1: Match BOTH Type and Color perfectly
+        for (let card of shuffledPool) {
+            let isSameType = card.raw_type === correctCard.raw_type;
+            let isSameColor = card.card_color === correctCard.card_color;
+            
+            if (isSameType && isSameColor && isNameUnique(card.card_name)) {
+                wrongChoices.push(card);
+                seenNames.add(card.card_name.toLowerCase());
+            }
+            if (wrongChoices.length === 3) break;
+        }
+
+        // 4. ATTEMPT 2: Failsafe (If the database doesn't have enough matching colors, just match Type)
+        if (wrongChoices.length < 3) {
+            for (let card of shuffledPool) {
+                if (card.raw_type === correctCard.raw_type && isNameUnique(card.card_name)) {
+                    wrongChoices.push(card);
+                    seenNames.add(card.card_name.toLowerCase());
+                }
+                if (wrongChoices.length === 3) break;
+            }
+        }
+
+        // 5. ATTEMPT 3: Absolute Failsafe (Just grab unique names so the game doesn't crash)
+        if (wrongChoices.length < 3) {
+            for (let card of shuffledPool) {
+                if (isNameUnique(card.card_name)) {
+                    wrongChoices.push(card);
+                    seenNames.add(card.card_name.toLowerCase());
+                }
+                if (wrongChoices.length === 3) break;
+            }
+        }
+
+        const finalChoices = [correctCard, ...wrongChoices].sort(() => 0.5 - Math.random());
         const displayArea = document.getElementById("quiz-display");
 
+        // --- Render Visual or Text ---
         if (mode === 'visual') {
             const setPrefix = correctCard.card_id.split('-')[0];
             const imagePath = `images/${setPrefix}/${correctCard.card_id}.jpg`;
             displayArea.innerHTML = `<img id="quiz-art" src="${imagePath}" class="quiz-image silhouette-mode" onerror="this.src=''; this.alt='Image not found'; this.classList.remove('silhouette-mode');" />`;
         } else {
+            // Replaces all instances of the character's name in the text
             let hiddenText = correctCard.skills_text.replace(new RegExp(correctCard.card_name, 'gi'), "<b>[???]</b>");
+            
+            // Extra trick: Hide their name if it appears inside other words (like possessives)
+            let firstName = correctCard.card_name.split(' ')[0];
+            if (firstName.length > 3) {
+                hiddenText = hiddenText.replace(new RegExp(firstName, 'gi'), "<b>[???]</b>");
+            }
+
             displayArea.innerHTML = `
                 <div style="text-align: left; background: #fff; color: #000; padding: 1.5rem; border-radius: 8px; border-left: 5px solid var(--holo-orange); font-weight: 600; line-height: 1.5; width: 100%;">
                     <div style="font-size: 0.8rem; color: var(--holo-orange); text-transform: uppercase; margin-bottom: 8px;">Whose skill is this?</div>
@@ -213,8 +294,9 @@
             `;
         }
 
+        // --- Generate Buttons ---
         const choicesContainer = document.getElementById("quiz-choices");
-        shuffledChoices.forEach(card => {
+        finalChoices.forEach(card => {
             const btn = document.createElement("button");
             btn.className = "btn-choice";
             btn.innerText = card.card_name;
