@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
     <style>
         :root {
             --brand-main: #41C3E3; 
@@ -26,13 +27,18 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: var(--navy); color: var(--text-bright); font-family: 'nunito', sans-serif; }
 
-        /* ── TOPBAR ── */
+      /* ── TOPBAR ── */
         .topbar {
             position: sticky; top: 0; z-index: 100;
             background: rgba(11, 17, 26, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-dim);
             display: flex; align-items: center; justify-content: space-between; padding: 12px 20px;
         }
-        .logo { font-size: 20px; font-weight: 800; letter-spacing: 0.1em; color: var(--text-bright); text-decoration: none;text-align: center;}
+
+        /* 👉 ADD THESE TWO LINES: This forces the logo and tabs to sit side-by-side on desktop */
+        .topbar-left { display: flex; align-items: center; gap: 24px; flex: 1; }
+        .topbar-right { flex: 1; display: flex; justify-content: flex-end; }
+
+        .logo { font-size: 20px; font-weight: 800; letter-spacing: 0.1em; color: var(--text-bright); text-decoration: none; text-align: center;}
         .logo span { color: var(--brand-main); }
         .tabs { display: flex; gap: 6px; }
         .tab {
@@ -72,6 +78,50 @@
         .btn-choice:hover { background: var(--brand-main); color: var(--navy); }
         .btn-choice.correct { background: var(--holo-teal); border-color: var(--holo-teal); color: #fff; }
         .btn-choice.wrong { background: var(--danger); border-color: var(--danger); color: #fff; }
+        .btn-about-header {
+            background: transparent; border: 1px solid var(--border-dim); color: var(--text-mid);
+            padding: 8px 14px; border-radius: 6px; font-family: 'nunito', sans-serif; font-size: 14px; font-weight: 700;
+            cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px;
+            }
+        .btn-about-header:hover { background: rgba(255,255,255,0.05); color: var(--text-bright); border-color: var(--border-mid); }
+        .btn-about-header i { font-size: 16px; color: var(--brand-main); }
+
+        /* ── ABOUT CREDITS MODAL ── */
+        .about-overlay {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+        z-index: 2999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .about-overlay.open { opacity: 1; pointer-events: auto; }
+  
+        .about-modal {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%) scale(0.95);
+            background: var(--navy-2); border: 1px solid var(--border-mid);
+            border-radius: 16px; width: 90%; max-width: 400px;
+            z-index: 3000; opacity: 0; pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; overflow: hidden;
+        }
+        .about-modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+  
+        .about-header {
+            background: var(--navy-3); padding: 16px 20px; border-bottom: 1px solid var(--border-dim);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .about-header h3 { font-size: 18px; font-weight: 800; color: var(--brand-main); margin: 0; }
+        .btn-close-modal {
+            background: transparent; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer; transition: 0.2s;
+        }
+        .btn-close-modal:hover { color: var(--danger); transform: scale(1.1); }
+  
+        .about-content { padding: 24px 20px; font-size: 15px; color: var(--text-bright); line-height: 1.6; }
+        .about-content p { margin-bottom: 16px; }
+        .about-content strong { color: var(--text-bright); font-weight: 800; }
+        .about-content a {
+            color: var(--brand-main); text-decoration: none; font-weight: 700; display: inline-block; margin-top: 4px; border-bottom: 1px dashed var(--border-dim); transition: 0.2s;
+        }
+        .about-content a:hover { color: var(--brand-hover); border-color: var(--brand-hover); }
+
         @media (max-width: 768px) {
             .topbar { padding: 10px 16px; gap: 8px; display: grid; justify-content: stretch; height: auto;}
             .topbar-left { flex: 100%; flex-direction: column; align-items: center; gap: 10px; }
@@ -108,6 +158,35 @@
       </button>
     </div>
   </header>
+  <!-- ABOUT CREDITS MODAL -->
+<div id="about-overlay" class="about-overlay" onclick="closeAboutModal()"></div>
+<div id="about-modal" class="about-modal">
+    <div class="about-header">
+        <h3>About hOCG DB</h3>
+        <button class="btn-close-modal" onclick="closeAboutModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="about-content">
+        <p><strong>Developed by:</strong> Siuspras</p>
+        <p><strong>Translations provided by:</strong> ogbajoj<br>
+           <a href="https://docs.google.com/spreadsheets/d/1IdaueY-Jw8JXjYLOhA9hUd2w0VRBao9Z1URJwmCWJ64/edit?pli=1&gid=975361685#gid=975361685" target="_blank"><i class="ti ti-external-link"></i> View Translation Sheet</a>
+        </p>
+        <p><strong>Card Images sourced from:</strong> Yuyu-tei<br>
+           <a href="https://yuyu-tei.jp/top/hocg" target="_blank"><i class="ti ti-external-link"></i> Visit Yuyu-tei</a>
+        </p>
+        <hr style="border-color: var(--border-dim); margin: 20px 0;">
+        
+        <!-- VISITOR COUNTER -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border-dim);">
+            <span style="font-weight: 700; color: var(--text-mid); font-size: 14px;">Total Visitors</span>
+            <span id="visitor-count" style="font-weight: 800; color: var(--brand-main); font-size: 16px; background: var(--navy-4); padding: 2px 8px; border-radius: 4px; border: 0.5px solid var(--border-mid);">...</span>
+        </div>
+        
+        <hr style="border-color: var(--border-dim); margin: 20px 0;">
+        <p style="font-size: 12px; color: var(--text-dim); margin: 0; line-height: 1.4;">
+            This is an unofficial fan-made application. Not affiliated with or endorsed by COVER Corp. or Hololive Production. All intellectual property belongs to their respective owners.
+        </p>
+        </div>
+    </div>
 
     <div class="panel" id="quiz-panel" style="max-width: 700px; margin: 2rem auto; text-align: center;">
         <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 1.5rem;">
@@ -361,6 +440,49 @@
             `;
         }
     }
+      /* ── ABOUT MODAL LOGIC ── */
+    window.openAboutModal = function() {
+      document.getElementById("about-modal").classList.add("open");
+      document.getElementById("about-overlay").classList.add("open");
+    };
+    window.closeAboutModal = function() {
+      document.getElementById("about-modal").classList.remove("open");
+      document.getElementById("about-overlay").classList.remove("open");
+    
+    };
+    /* ── VISITOR COUNTER ── */
+    async function updateVisitorCounter() {
+      const counterEl = document.getElementById("visitor-count");
+      if (!counterEl) return;
+      
+      try {
+          const response = await fetch("https://api.counterapi.dev/v1/hocg_db_siuspras/visits/up");
+          if (response.ok) {
+              const data = await response.json();
+              let count = data.count;
+              let displayStr = "";
+              
+              if (count < 10) {
+                  displayStr = count.toString();
+              } else {
+                  const magnitude = Math.pow(10, Math.floor(Math.log10(count)));
+                  const rounded = Math.floor(count / magnitude) * magnitude;
+                  displayStr = rounded.toLocaleString() + "+";
+              }
+              
+              counterEl.innerText = displayStr;
+          } else {
+              counterEl.innerText = "Online";
+          }
+      } catch (error) {
+          counterEl.innerText = "1"; 
+      }
+    }
+
+    updateVisitorCounter();
+    </script>
+    <script data-goatcounter="https://swifterstar02.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 
     // Start loading the database as soon as the page opens
     initializeDatabase();

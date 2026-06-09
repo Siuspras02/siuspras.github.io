@@ -744,7 +744,7 @@
       if (!counterEl) return;
       
       try {
-          const response = await fetch("https://api.counterapi.dev/v1/hocg_db_siuspras/visits/up");
+          const response = await fetch("https://api.counterapi.dev/v1/hocg_db_siuspras/visits_2/up");
           if (response.ok) {
               const data = await response.json();
               let count = data.count;
