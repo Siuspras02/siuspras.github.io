@@ -156,7 +156,8 @@
   /* ── CARD GRID ── */
   .card-grid { 
     display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+    gap: 16px;
     grid-auto-rows: max-content; gap: 16px; padding-bottom: 20px; flex: 1; overflow-y: auto; min-height: 0; align-content: start; padding-right: 8px; padding-top: 8px;
   }
   
@@ -783,126 +784,81 @@
   }
 
   function formatSkillText(card) {
-      let rawText = card.skills_text || "None";
-      let text = rawText.toString().replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
-      
-      let tags = "";
-      let mainText = text;
+          let rawText = card.skills_text || "None";
+          
+          // 👉 THE FIX: Sanitize the angle brackets FIRST so names like <Fuwawa...> don't disappear
+          let safeText = rawText.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;");
+          
+          // Now safely apply your line breaks
+          let text = safeText.replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
+          
+          let tags = ""; 
+          let mainText = text;
 
-      if (mainText.includes('|')) {
-          let parts = mainText.split('|');
-          tags = parts[0].trim();
-          mainText = parts.slice(1).join('|').trim();
-      }
+          if (mainText.includes('|')) {
+              let parts = mainText.split('|'); tags = parts[0].trim(); mainText = parts.slice(1).join('|').trim();
+          }
 
-      let hashMatch = mainText.match(/#[a-zA-Z0-9_]+/g);
-      if (hashMatch) {
-          let extractedTags = hashMatch.join(" ");
-          if (tags) { tags = [...new Set(tags.split(/\s+/).concat(extractedTags.split(/\s+/)))].join(' '); } else { tags = extractedTags; }
-          mainText = mainText.replace(/(<br>\s*)+$/g, '').replace(/^(<br>\s*)+/g, '').trim();
-      }
+          let hashMatch = mainText.match(/#[a-zA-Z0-9_]+/g);
+          if (hashMatch) {
+              let extractedTags = hashMatch.join(" ");
+              if (tags) { tags = [...new Set(tags.split(/\s+/).concat(extractedTags.split(/\s+/)))].join(' '); } else { tags = extractedTags; }
+              mainText = mainText.replace(/(<br>\s*)+$/g, '').replace(/^(<br>\s*)+/g, '').trim();
+          }
 
-      let skillText = mainText; 
-      let artsText = "-";
-      let isHolomem = card.card_type === "Holomem";
+          let skillText = mainText; let artsText = "-"; let isHolomem = card.card_type === "Holomem";
 
-      if (isHolomem) {
-          let artsIndex = mainText.search(/(?:^|<br>)\s*Arts(?:\s|:)/);
-          if (artsIndex !== -1) {
-              skillText = mainText.substring(0, artsIndex).trim();
-              artsText = mainText.substring(artsIndex).replace(/^(?:<br>)?\s*Arts:?\s*/, '').trim();
-          } else if (mainText.includes("Arts:") || mainText.includes("Arts ")) {
-              let splitIndex = mainText.indexOf("Arts:");
-              if (splitIndex === -1) splitIndex = mainText.indexOf("Arts ");
-              if (splitIndex !== -1 && splitIndex !== 0) {
-                  skillText = mainText.substring(0, splitIndex).trim();
-                  artsText = mainText.substring(splitIndex + 5).trim();
-              } else if (splitIndex === 0) {
-                  skillText = "None"; artsText = mainText.substring(5).trim();
+          if (isHolomem) {
+              let artsIndex = mainText.search(/(?:^|<br>)\s*Arts(?:\s|:)/);
+              if (artsIndex !== -1) {
+                  skillText = mainText.substring(0, artsIndex).trim();
+                  artsText = mainText.substring(artsIndex).replace(/^(?:<br>)?\s*Arts:?\s*/, '').trim();
+              } else if (mainText.includes("Arts:") || mainText.includes("Arts ")) {
+                  let splitIndex = mainText.indexOf("Arts:"); if (splitIndex === -1) splitIndex = mainText.indexOf("Arts ");
+                  if (splitIndex !== -1 && splitIndex !== 0) {
+                      skillText = mainText.substring(0, splitIndex).trim(); artsText = mainText.substring(splitIndex + 5).trim();
+                  } else if (splitIndex === 0) { skillText = "None"; artsText = mainText.substring(5).trim(); }
               }
           }
-      }
 
-      if (skillText === "" || skillText === "-" || skillText === "<br>") skillText = "No skills listed.";
-      if (skillText.endsWith("<br>")) skillText = skillText.substring(0, skillText.length - 4).trim();
-      if (skillText.startsWith("<br>")) skillText = skillText.substring(4).trim();
+          if (skillText === "" || skillText === "-" || skillText === "<br>") skillText = "No skills listed.";
+          if (skillText.endsWith("<br>")) skillText = skillText.substring(0, skillText.length - 4).trim();
+          if (skillText.startsWith("<br>")) skillText = skillText.substring(4).trim();
 
-      let isLimited = false;
-      if (/\blimited\b/i.test(skillText) || /#?limited/i.test(tags)) {
-          isLimited = true;
-          tags = tags.replace(/#?limited/i, '').replace(/\s+/g, ' ').trim();
-          skillText = skillText.replace(/^Limited[:\.\-]?\s*(?:<br>\s*)*/i, '');
-          skillText = skillText.replace(/<br>\s*Limited[:\.\-]?\s*(?:<br>\s*)*/i, '<br>');
-          if (skillText === "" || skillText === "<br>") skillText = "No skills listed.";
-      }
-
-      let label1 = "Card Effect";
-      let label1Color = "var(--holo-blue)"; 
-      let label1TextColor = "#FFF";
-      
-      let label2 = "Card Effect";
-      let label2Color = "var(--holo-romance)"; 
-      let label2TextColor = "#FFF";
-      
-      let isTool = card.raw_type && card.raw_type.includes("tool");
-      let isSupport = card.card_type === "Support" && !isTool;
-      let isOshi = card.card_type === "Oshi";
-
-      if (isHolomem) {
-          if (skillText.includes("Bloom Effect") || skillText.includes("Bloom effect")) {
-              label1 = "Bloom Effect"; skillText = skillText.replace(/Bloom [Ee]ffect:?\s*/, '');
-              label1Color = "var(--holo-blue)"; 
-          } else if (skillText.includes("Collab Effect") || skillText.includes("Collab effect")) {
-              label1 = "Collab Effect"; skillText = skillText.replace(/Collab [Ee]ffect:?\s*/, '');
-              label1Color = "var(--holo-rose)"; 
-          } else if (skillText.includes("Gift")) {
-              label1 = "Gift"; skillText = skillText.replace(/Gift:?\s*/, '');
-              label1Color = "var(--holo-teal)"; 
-              label1TextColor = "#FFF";
-          } else if (skillText !== "None" && skillText !== "No skills listed.") {
-              label1 = "Auto Effect"; skillText = skillText.replace(/Auto [Ee]ffect:?\s*/, '');
-              label1Color = "var(--brand-orange)"; 
-              label1TextColor = "#000";
+          let isLimited = false;
+          if (/\blimited\b/i.test(skillText) || /#?limited/i.test(tags)) {
+              isLimited = true; tags = tags.replace(/#?limited/i, '').replace(/\s+/g, ' ').trim();
+              skillText = skillText.replace(/^Limited[:\.\-]?\s*(?:<br>\s*)*/i, '');
+              skillText = skillText.replace(/<br>\s*Limited[:\.\-]?\s*(?:<br>\s*)*/i, '<br>');
+              if (skillText === "" || skillText === "<br>") skillText = "No skills listed.";
           }
-      } else {
-          label1 = "Card Effect";
-          if (isOshi) label1Color = "var(--holo-rose)";
-          if (card.card_type === "Cheer") label1Color = "var(--brand-orange)";
-          if (isSupport) label1Color = "var(--holo-blue)";
-          if (isTool) {
-              label1 = "Activation"; label1Color = "var(--holo-rose)"; label1TextColor = "#FFF";
-              label2 = "Card Effect"; label2Color = "var(--holo-blue)";
+
+          let label1 = "Card Effect"; let label1Color = "var(--holo-blue)"; let label1TextColor = "#fff";
+          let label2 = "Arts Skill"; let label2Color = "var(--holo-romance)"; let label2TextColor = "#fff";
+
+          if (isHolomem) {
+              if (skillText.includes("Bloom Effect") || skillText.includes("Bloom effect")) { label1 = "Bloom Effect"; skillText = skillText.replace(/Bloom [Ee]ffect:?\s*/, ''); label1Color = "var(--holo-blue)"; } 
+              else if (skillText.includes("Collab Effect") || skillText.includes("Collab effect")) { label1 = "Collab Effect"; skillText = skillText.replace(/Collab [Ee]ffect:?\s*/, ''); label1Color = "var(--danger)"; } 
+              else if (skillText.includes("Gift")) { label1 = "Gift"; skillText = skillText.replace(/Gift:?\s*/, ''); label1Color = "var(--holo-teal)"; label1TextColor = "#FFF"; } 
+              else if (skillText !== "None" && skillText !== "No skills listed.") { label1 = "Auto Effect"; skillText = skillText.replace(/Auto [Ee]ffect:?\s*/, ''); label1Color = "var(--holo-orange)"; label1TextColor = "#000"; }
           }
+
+          let formattedTagsHtml = "";
+          if (tags && tags.trim() !== "") {
+              formattedTagsHtml = `<div style="background: #FFFFFF; border: 1px solid #d1dce8; border-radius: 8px; padding: 0.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 0.75rem;"><div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 800; margin-bottom: 0.5rem; color: #000; background: var(--holo-orange); display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px;">Tag</div><div style="font-weight: 800; color: var(--holo-blue); line-height: 1.5; font-size: 1.05rem;">${tags}</div></div>`;
+          }
+
+          let limitedBadgeHtml = isLimited ? `<div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 800; margin-bottom: 0.5rem; color: #fff; background: var(--danger); display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; margin-left: 0.5rem;">Limited</div>` : "";
+
+          let formattedSkillHtml = "";
+          if (skillText !== "None" && skillText !== "No skills listed." && skillText.trim() !== "") {
+              formattedSkillHtml = `<div style="background: #FFFFFF; border: 1px solid #d1dce8; border-radius: 8px; padding: 0.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 0.75rem;"><div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 800; margin-bottom: 0.5rem; color: ${label1TextColor}; background: ${label1Color}; display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px;">${label1}</div>${limitedBadgeHtml}<div style="font-weight: 600; color: #171e30; line-height: 1.5; font-size: 1.05rem;">${skillText}</div></div>`;
+          }
+
+          let formattedArtsHtml = (artsText !== "-" && artsText !== "") ? `<div style="background: #FFFFFF; border: 1px solid #d1dce8; border-radius: 8px; padding: 0.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02);"><div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 800; margin-bottom: 0.5rem; color: ${label2TextColor}; background: ${label2Color}; display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px;">${label2}</div><div style="font-weight: 600; color: #171e30; line-height: 1.5; font-size: 1.05rem;">${artsText}</div></div>` : "";
+
+          return { skillText, artsText, isLimited, formattedTagsHtml, formattedSkillHtml, formattedArtsHtml };
       }
-
-      let formattedTagsHtml = "";
-      if (tags && tags.trim() !== "") {
-          formattedTagsHtml = `
-              <div class="effect-box">
-                  <div class="effect-label" style="background: var(--brand-orange); color: #000;">Tag</div>
-                  <div class="effect-text" style="color: var(--holo-blue); font-weight:700;">${tags}</div>
-              </div>`;
-      }
-
-      let limitedBadgeHtml = isLimited ? `<div class="effect-label" style="background: var(--danger); color: #FFF; margin-left: 6px;">Limited</div>` : "";
-
-      let formattedSkillHtml = "";
-      if (skillText !== "None" && skillText !== "No skills listed." && skillText.trim() !== "") {
-          formattedSkillHtml = `
-              <div class="effect-box">
-                  <div class="effect-label" style="background: ${label1Color}; color: ${label1TextColor};">${label1}</div>${limitedBadgeHtml}
-                  <div class="effect-text">${skillText}</div>
-              </div>`;
-      }
-
-      let formattedArtsHtml = (artsText !== "-" && artsText !== "") ? `
-          <div class="effect-box">
-              <div class="effect-label" style="background: ${label2Color}; color: ${label2TextColor};">${label2}</div>
-              <div class="effect-text">${artsText}</div>
-          </div>` : "";
-
-      return { skillText, artsText, isLimited, formattedTagsHtml, formattedSkillHtml, formattedArtsHtml };
-  }
 
   function renderCardPool(searchQuery = "") {
       const poolContainer = document.getElementById("scanned-pool");

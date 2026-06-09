@@ -58,6 +58,10 @@ function generateThumbnail(base64Image) {
 function parseSkillText(rawText) {
     // Safety string conversion to prevent crashes on bad data
     let skillText = rawText ? String(rawText) : "None";
+
+    // 👉 THE FIX: Convert angle brackets to safe HTML entities right away
+    skillText = skillText.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
     let labelText = "Card Effect";
     let labelBg = "var(--holo-blue)";
     let isNone = false;

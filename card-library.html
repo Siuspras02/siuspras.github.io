@@ -411,6 +411,8 @@
                       let rawTags = tagsIdx !== -1 ? (cols[tagsIdx] || "") : "";
                       let finalSkillsText = rawTags ? `${rawTags} | ${rawSkills}` : rawSkills;
                       
+                      
+                      
                       combinedDatabase.push({
                           card_name: cardName, card_type: cardType, bloom_level: bloomLevel,
                           card_id: setCode.trim(), hp: isNaN(hp) ? null : hp, skills_text: finalSkillsText, thumbnail: null,
@@ -463,8 +465,15 @@
 
       function formatSkillText(card) {
           let rawText = card.skills_text || "None";
-          let text = rawText.toString().replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
-          let tags = ""; let mainText = text;
+          
+          // 👉 THE FIX: Sanitize the angle brackets FIRST so names like <Fuwawa...> don't disappear
+          let safeText = rawText.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;");
+          
+          // Now safely apply your line breaks
+          let text = safeText.replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
+          
+          let tags = ""; 
+          let mainText = text;
 
           if (mainText.includes('|')) {
               let parts = mainText.split('|'); tags = parts[0].trim(); mainText = parts.slice(1).join('|').trim();
@@ -472,11 +481,10 @@
 
           let hashMatch = mainText.match(/#[a-zA-Z0-9_]+/g);
           if (hashMatch) {
-          let extractedTags = hashMatch.join(" ");
-          if (tags) { tags = [...new Set(tags.split(/\s+/).concat(extractedTags.split(/\s+/)))].join(' '); } else { tags = extractedTags; }
-          // FIX: We no longer delete the tags from mainText so they stay visible in the sentences!
-          mainText = mainText.replace(/(<br>\s*)+$/g, '').replace(/^(<br>\s*)+/g, '').trim();
-      }
+              let extractedTags = hashMatch.join(" ");
+              if (tags) { tags = [...new Set(tags.split(/\s+/).concat(extractedTags.split(/\s+/)))].join(' '); } else { tags = extractedTags; }
+              mainText = mainText.replace(/(<br>\s*)+$/g, '').replace(/^(<br>\s*)+/g, '').trim();
+          }
 
           let skillText = mainText; let artsText = "-"; let isHolomem = card.card_type === "Holomem";
 
