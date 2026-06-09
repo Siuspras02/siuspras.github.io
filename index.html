@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>hOCG DB — Modern Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+<style>
+  :root {
+    /* ── CARD EFFECT COLORS (DO NOT CHANGE) ── */
+    --holo-teal: #1D9E75; /* Gift */
+    --holo-rose: #FF2C2C; /* Collab */
+    --holo-romance: #FF2C72; /* Arts */
+    --holo-gold: #BA7517; /* Saved Stars */
+    --holo-blue: #378ADD; /* Bloom */
+    --brand-orange: #EF9F27; /* Auto / Cheer */
+    --danger: #FF5252;
+    
+    /* ── HOLOLIVE BRAND UI THEME ── */
+    --brand-main: #41C3E3; /* Hololive Cyan */
+    --brand-hover: #00A6D6; /* Hololive Deep Blue */
+    --brand-pink: #FF5E99; /* Hololive Pink Accent */
+    
+    /* ── DEEP NAVY LAYOUT ── */
+    --navy: #0B111A;
+    --navy-2: #15202B;
+    --navy-3: #1A2636;
+    --navy-4: #243447;
+    
+    --border-dim: rgba(65, 195, 227, 0.15);
+    --border-mid: rgba(65, 195, 227, 0.35);
+    
+    --text-bright: #F8FAFC;
+    --text-mid: #94A3B8;
+    --text-dim: #475569;
+    --tag-r: 4px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--navy); color: var(--text-bright); font-family: 'nunito', sans-serif; overflow: hidden; }
+
+  /* ── UNIFIED TOPBAR ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(11, 17, 26, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-dim);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 20px;}
+  .topbar-left { display: flex; align-items: center; gap: 24px; flex: 1; }
+  .topbar-center { flex: 2; display: flex; justify-content: center; }
+  .topbar-right { flex: 1; display: flex; justify-content: flex-end; } 
+  
+  .logo { font-size: 20px; font-weight: 800; letter-spacing: 0.1em; color: var(--text-bright); white-space: nowrap; }
+  .logo span { color: var(--brand-main); }
+  
+  .tabs { display: flex; gap: 6px; }
+  .tab {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 6px 14px; border-radius: 8px; border: 1px solid transparent;
+    text-decoration: none; color: var(--text-mid); transition: all 0.2s ease;
+  }
+  .tab-title { font-family: 'nunito', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.05em; }
+  
+  .tab:hover:not(.active) { background: rgba(255,255,255,0.05); color: var(--text-bright); }
+  .tab.active { background: rgba(65, 195, 227, 0.15); border-color: rgba(65, 195, 227, 0.3); color: var(--brand-main); }
+
+  .search-bar {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--navy-3); border: 0.5px solid var(--border-dim);
+    border-radius: 6px; padding: 0 16px; height: 42px; width: 100%; max-width: 500px;
+    transition: 0.2s;
+  }
+  .search-bar:focus-within { border-color: var(--brand-main); box-shadow: 0 0 0 2px rgba(65, 195, 227, 0.2); }
+  .search-bar i { font-size: 18px; color: var(--text-dim); }
+  .search-bar input {
+    background: transparent; border: none; outline: none;
+    font-family: 'nunito', sans-serif; font-size: 16px; color: var(--text-bright); width: 100%;
+  }
+  .search-bar input::placeholder { color: var(--text-dim); }
+
+  /* ── ABOUT / CREDITS BUTTON ── */
+  .btn-about-header {
+    background: transparent; border: 1px solid var(--border-dim); color: var(--text-mid);
+    padding: 8px 14px; border-radius: 6px; font-family: 'nunito', sans-serif; font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px;
+  }
+  .btn-about-header:hover { background: rgba(255,255,255,0.05); color: var(--text-bright); border-color: var(--border-mid); }
+  .btn-about-header i { font-size: 16px; color: var(--brand-main); }
+
+  /* ── BODY LAYOUT ── */
+  .body-wrapper { display: flex; justify-content: center; width: 100%; overflow: hidden; height: calc(100vh - 72px); }
+  .main-panel { 
+    display: grid; grid-template-columns: 2fr 3fr; gap: 1.5rem; flex: 1; max-width: 1600px; padding: 20px; height: 100%;
+  }
+
+  .panel-col { display: flex; flex-direction: column; height: 100%; min-height: 0; overflow: hidden; }
+
+  /* Section Headers */
+  .section-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid var(--border-dim); padding-bottom: 12px; margin-bottom: 8px; }
+  .section-header h3 { color: var(--brand-main); font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin: 0; }
+  
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+  .btn-action { background: var(--navy-3); color: var(--text-bright); border: 1px solid var(--border-dim); padding: 8px 16px; border-radius: 6px; font-family: 'nunito', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px; text-transform: uppercase; }
+  .btn-action:hover { background: var(--navy-4); border-color: var(--border-mid); }
+  .btn-action.danger { color: var(--danger); }
+  .btn-action.danger:hover { background: rgba(255,82,82,0.15); border-color: var(--danger); }
+
+  /* ── FILTER CHIPS ── */
+  .filter-chips {
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 8px;
+    scrollbar-width: none; -ms-overflow-style: none;
+    flex-wrap: nowrap; align-items: center;
+  }
+  .filter-chips::-webkit-scrollbar { display: none; }
+  
+  .chip {
+    background: var(--navy-3); color: var(--text-mid); border: 1px solid var(--border-dim);
+    padding: 6px 14px; border-radius: 20px; font-family: 'nunito', sans-serif; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: 0.2s; white-space: nowrap; flex-shrink: 0;
+  }
+  .chip:hover { background: rgba(65, 195, 227, 0.1); color: var(--brand-main); border-color: var(--border-mid); }
+  .chip.active { background: var(--brand-main); color: var(--navy); border-color: var(--brand-main); }
+
+  /* ── BRAND LOGO INITIAL LOADER ── */
+  .db-loader-container {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    width: 100%;
+    margin: auto 0;
+  }
+  .holo-logo-loader {
+    width: 110px;
+    height: auto;
+    animation: holoPulse 1.8s infinite ease-in-out;
+    filter: drop-shadow(0 0 8px rgba(65, 195, 227, 0.4));
+  }
+  .loader-text {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--brand-main);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(65, 195, 227, 0.3);
+  }
+  @keyframes holoPulse {
+    0% { transform: scale(0.94); opacity: 0.6; filter: drop-shadow(0 0 6px rgba(65, 195, 227, 0.3)); }
+    50% { transform: scale(1.04); opacity: 1; filter: drop-shadow(0 0 18px rgba(65, 195, 227, 0.7)); }
+    100% { transform: scale(0.94); opacity: 0.6; filter: drop-shadow(0 0 6px rgba(65, 195, 227, 0.3)); }
+  }
+
+  /* ── CARD GRID ── */
+  .card-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+    grid-auto-rows: max-content; gap: 16px; padding-bottom: 20px; flex: 1; overflow-y: auto; min-height: 0; align-content: start; padding-right: 8px; padding-top: 8px;
+  }
+  
+  .card-grid::-webkit-scrollbar { width: 6px; }
+  .card-grid::-webkit-scrollbar-track { background: transparent; }
+  .card-grid::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 3px; }
+  .card-grid::-webkit-scrollbar-thumb:hover { background: var(--brand-main); }
+
+  /* ── INTERACTIVE WATERFALL ENTRANCE STATES ── */
+  .card-item {
+    position: relative; border-radius: 8px; border: 0.5px solid var(--border-dim);
+    background: var(--navy-3); cursor: pointer; overflow: hidden;
+    display: flex; flex-direction: column; 
+    min-height: 280px; 
+    
+    opacity: 0;
+    transform: translateY(16px);
+    transition: border-color 0.15s, box-shadow 0.15s, opacity 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  
+  .card-item.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .card-item.fade-in:hover, .card-item.fade-in:focus-visible { 
+    border-color: var(--brand-main); 
+    transform: translateY(-4px); 
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(65, 195, 227, 0.2); 
+    outline: none; 
+  }
+  .card-item:hover .translation-overlay,
+  .card-item:focus-visible .translation-overlay { opacity: 1; pointer-events: auto; }
+
+  .card-face { aspect-ratio: 5/7; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; overflow: hidden; position: relative; flex-shrink: 0; }
+
+  /* =========================================
+     LIST VIEW OVERRIDES & ACCORDION
+     ========================================= */
+  .list-element { display: none; }
+  .card-grid.list-view { display: grid; grid-template-columns: 1fr !important; grid-auto-rows: max-content; gap: 12px; }
+  .card-grid.list-view .card-item { min-height: auto; border-radius: 8px; }
+  .card-grid.list-view .card-item:hover, .card-grid.list-view .card-item:focus-visible { transform: none; box-shadow: none; border-color: var(--border-mid); }
+  
+  .card-grid.list-view .grid-element { display: none; }
+  .card-grid.list-view .list-element { display: block; }
+  
+  .card-grid.list-view .list-header { display: flex; align-items: center; padding: 12px 16px; gap: 16px; cursor: pointer; transition: background 0.2s; border-radius: 8px; min-height: 80px; }
+  .card-grid.list-view .list-header:hover { background: rgba(65, 195, 227, 0.05); }
+  
+  .list-thumb { width: 44px; height: 60px; border-radius: 4px; overflow: hidden; background: var(--navy-4); border: 1px solid var(--border-dim); flex-shrink: 0; }
+  .list-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .list-info { flex: 1; overflow: hidden; }
+  .list-name { font-size: 16px; font-weight: 700; color: var(--text-bright); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .list-sub { font-size: 14px; color: var(--text-dim); margin-top: 4px; letter-spacing: 0.04em; }
+  .list-actions { display: flex; align-items: center; gap: 16px; }
+  .accordion-icon { font-size: 20px; color: var(--text-dim); transition: transform 0.3s; }
+  .card-item.expanded .accordion-icon { transform: rotate(45deg); color: var(--brand-main); }
+  
+  .card-grid.list-view .list-content { display: block; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: rgba(0,0,0,0.3); border-top: 1px solid transparent; }
+  .card-item.expanded .list-content { border-top-color: var(--border-dim); }
+  .list-content-inner { padding: 20px; display: flex; gap: 24px; align-items: flex-start; }
+  
+  .list-full-img { width: 180px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border-dim); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .list-full-img img { width: 100%; display: block; }
+  .list-details { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+  /* ── DESKTOP TRANSLATION OVERLAY ── */
+  .translation-overlay {
+    position: absolute; inset: 0; background: rgba(11, 17, 26, 0.95); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.2s ease; padding: 14px; display: flex; flex-direction: column; gap: 8px; pointer-events: none; z-index: 10;
+  }
+  .tl-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .tl-title { font-size: 16px; font-weight: 700; color: var(--text-bright); line-height: 1.2; margin-bottom: 4px; }
+  
+  .bookmark-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border-dim); border-radius: 6px; font-size: 18px; cursor: pointer; transition: 0.2s; padding: 6px 8px; display: flex; align-items: center; justify-content: center; }
+  .bookmark-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+  .bookmark-btn.saved { color: var(--holo-gold); border-color: var(--holo-gold); background: rgba(186,117,23,0.15); }
+  .bookmark-btn.unsaved { color: var(--text-bright); }
+
+  .tl-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; }
+  .tl-scroll-area::-webkit-scrollbar { width: 4px; }
+  .tl-scroll-area::-webkit-scrollbar-thumb { background: var(--text-dim); border-radius: 2px; }
+
+  .effect-box { background: rgba(255,255,255,0.03); border: 0.5px solid var(--border-dim); border-radius: 6px; padding: 10px; margin-bottom: 2px; }
+  .effect-label { font-size: 10px; text-transform: uppercase; font-weight: 800; margin-bottom: 6px; display: inline-block; padding: 3px 6px; border-radius: 4px; letter-spacing: 0.05em; }
+  .effect-text { font-size: 13px; color: var(--text-bright); line-height: 1.4; font-weight: 500; }
+  .tl-hp { font-size: 18px; color: #FFD700; font-weight: 800; margin-top: auto; padding-top: 8px; border-top: 0.5px solid var(--border-dim); text-align: center; }
+  .empty-state { text-align: center; padding: 40px; color: var(--text-dim); font-size: 16px; grid-column: 1 / -1; }
+
+  .card-face img { width: 100%; height: 100%; object-fit: cover; z-index: 2; position: absolute; top:0; left:0; }
+  .card-face.oshi { background: linear-gradient(160deg, #0a1520, #0f2a20); }
+  .card-face.member { background: linear-gradient(160deg, #0a0d20, #1a102a); }
+  .card-face.support { background: linear-gradient(160deg, #150d0a, #2a1808); }
+  .card-face.cheer { background: linear-gradient(160deg, #100a1a, #1a0a14); }
+  .card-face i { font-size: 26px; color: var(--text-dim); z-index: 1; }
+  .face-label { font-size: 10px; color: var(--text-dim); letter-spacing: 0.1em; font-weight: 700; z-index: 1; }
+
+  .card-meta { padding: 8px 10px 10px; display: flex; flex-direction: column; flex: 1; }
+  .card-name-jp { font-size: 15px; font-weight: 700; color: var(--text-bright); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-id { font-size: 12px; color: var(--text-mid); font-weight: 600; letter-spacing: 0.04em; display: block; margin-top: 2px; }
+  .card-badges { display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap; align-items: center; }
+  
+  .badge { font-size: 10px; font-weight: 800; letter-spacing: 0.06em; padding: 2px 6px; border-radius: 4px; }
+  .badge.oshi   { background: rgba(186,117,23,0.2);  color: #EF9F27; border: 0.5px solid rgba(186,117,23,0.4); }
+  .badge.member { background: rgba(29,158,117,0.2);  color: #5DCAA5; border: 0.5px solid rgba(29,158,117,0.4); }
+  .badge.support{ background: rgba(55,138,221,0.2);  color: #85B7EB; border: 0.5px solid rgba(55,138,221,0.4); }
+  .badge.cheer  { background: rgba(212,83,126,0.2);  color: #ED93B1; border: 0.5px solid rgba(212,83,126,0.4); }
+
+  /* ── NATIVE APP BOTTOM SHEET (FOR MOBILE) ── */
+  .sheet-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(3px);
+    z-index: 1999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  .sheet-overlay.open { opacity: 1; pointer-events: auto; }
+  
+  .bottom-sheet {
+    position: fixed; bottom: -100%; left: 0; right: 0;
+    max-height: 85vh; background: var(--navy-2);
+    border-top-left-radius: 24px; border-top-right-radius: 24px;
+    z-index: 2000; transition: transform 0.3s ease, bottom 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: flex; flex-direction: column;
+    border-top: 1px solid var(--border-mid); box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+  }
+  .bottom-sheet.open { bottom: 0; transform: translateY(0); }
+  .sheet-drag-area {
+    width: 100%; padding: 12px 0 8px; cursor: grab;
+    display: flex; justify-content: center; flex-shrink: 0;
+  }
+  .sheet-handle {
+    width: 40px; height: 5px; background: var(--text-dim); border-radius: 3px;
+  }
+  .sheet-content { overflow-y: auto; padding: 0 20px 20px; flex: 1; }
+  
+  /* ── ABOUT CREDITS MODAL ── */
+  .about-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+    z-index: 2999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  .about-overlay.open { opacity: 1; pointer-events: auto; }
+  
+  .about-modal {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%) scale(0.95);
+    background: var(--navy-2); border: 1px solid var(--border-mid);
+    border-radius: 16px; width: 90%; max-width: 400px;
+    z-index: 3000; opacity: 0; pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; overflow: hidden;
+  }
+  .about-modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+  
+  .about-header {
+    background: var(--navy-3); padding: 16px 20px; border-bottom: 1px solid var(--border-dim);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .about-header h3 { font-size: 18px; font-weight: 800; color: var(--brand-main); margin: 0; }
+  .btn-close-modal {
+    background: transparent; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer; transition: 0.2s;
+  }
+  .btn-close-modal:hover { color: var(--danger); transform: scale(1.1); }
+  
+  .about-content { padding: 24px 20px; font-size: 15px; color: var(--text-bright); line-height: 1.6; }
+  .about-content p { margin-bottom: 16px; }
+  .about-content strong { color: var(--text-bright); font-weight: 800; }
+  .about-content a {
+    color: var(--brand-main); text-decoration: none; font-weight: 700; display: inline-block; margin-top: 4px; border-bottom: 1px dashed var(--border-dim); transition: 0.2s;
+  }
+  .about-content a:hover { color: var(--brand-hover); border-color: var(--brand-hover); }
+
+  .hide-on-mobile{display: flex;}
+  .hide-on-desktop{display: none;}
+
+  /* ── MOBILE RESPONSIVE FIXES ── */
+  @media (max-width: 768px) {
+      .topbar { padding: 10px 16px; gap: 8px; }
+      .topbar-left { flex: 100%; flex-direction: column; align-items: center; gap: 10px; }
+      .topbar-center { flex: 100%; order: 3; }
+      .topbar-right { display: none; }
+      
+      .tabs { display: flex; width: 100%; justify-content: center; gap: 4px; }
+      .tab { padding: 8px 12px; flex-direction: row; }
+      .tab-desc { display: none; }
+      .tab-title { font-size: 14px; }
+      
+      .main-panel { display: flex; flex-direction: column; overflow-y: auto; padding: 16px 16px 80px 16px; gap: 24px; }
+      .panel-col { flex: none; overflow: visible; height: auto; }
+      
+      .card-grid { 
+          grid-template-columns: repeat(2, 1fr) !important; 
+          gap: 12px; padding: 4px 0; overflow: visible; height: auto;
+      }
+      .card-item { min-height: 220px; } 
+      
+      .list-content-inner { flex-direction: column; align-items: center; }
+      .list-full-img { width: 150px; margin: 0 auto; }
+      
+      #current-deck { overflow: auto; max-height: 50vh; }
+      .section-header { align-items: flex-start; flex-direction: column; gap: 12px; }
+      .header-actions { width: 100%; justify-content: space-between; }
+      #sort-select { flex: 1; min-width: 0; margin-right: 8px; }
+
+      .translation-overlay.grid-element { display: none !important; }
+      .hide-on-mobile{display: none;}
+      .hide-on-desktop{display: flex;}
+      .topbar-center{display: none;}
+      .search-bar{max-width: 100%;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo">Hololive OCG <span>DB</span></div>
+      <nav class="tabs">
+        <a href="index.html" class="tab active">
+          <span class="tab-title">Modern Library</span>
+        </a>
+        <a href="card-library.html" class="tab">
+          <span class="tab-title">Simple Library</span>
+        </a>
+      </nav>
+    </div>
+    <div class="topbar-center">
+      <div class="search-bar hide-on-mobile">
+        <i class="ti ti-search"></i>
+        <input type="search" id="search-db-input" placeholder="Search name, ID, type, or #tag (e.g. #buzz)..." />
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-about-header" onclick="openAboutModal()">
+          <i class="ti ti-info-circle"></i> About
+      </button>
+    </div>
+  </header>
+
+<div class="body-wrapper">
+  <main class="main-panel">
+
+    <div class="panel-col">
+        <div class="section-header">
+            <h3>
+                <i class="ti ti-bookmark"></i> Bookmarks
+                <span class="badge" style="background: var(--navy-4); color: white; margin-left: 8px;" id="deck-count">0</span>
+            </h3>
+            <div class="header-actions">
+                <button class="btn-action" onclick="window.exportDecklist()"><i class="ti ti-clipboard-text"></i> Copy</button>
+                <button class="btn-action danger" onclick="window.clearAllBookmarks()"><i class="ti ti-trash"></i> Clear</button>
+            </div>
+            <div class="search-bar hide-on-desktop">
+                <i class="ti ti-search"></i>
+                <input type="search" id="search-db-input2" placeholder="Search name, ID, type, or #tag (e.g. #buzz)..." />
+            </div>
+        </div>
+        
+        <div class="card-grid list-view" id="current-deck">
+        </div>
+    </div>
+
+    <div class="panel-col">
+        <div class="section-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div>
+                    <h3 style="color: var(--text-bright);">
+                        <i class="ti ti-database"></i> Database
+                    </h3>
+                    <span class="result-count" style="font-size: 15px; color: var(--text-dim); margin-top: 4px; display: block;">
+                        <b id="cardCount" style="color: var(--text-bright); font-size: 18px;">0</b> cards loaded
+                    </span>
+                </div>
+                <button class="btn-about-header hide-on-desktop" onclick="openAboutModal()" style="margin-left: auto;">
+                    <i class="ti ti-info-circle"></i> About
+                </button>
+            </div>
+            
+            <div class="header-actions">
+                <select id="sort-select" style="background: var(--navy-3); color: var(--text-bright); border: 1px solid var(--border-dim); padding: 8px 14px; border-radius: 6px; font-family: 'nunito', sans-serif; font-size: 14px; font-weight: 600; outline: none; cursor: pointer;">
+                    <option value="id-asc">Sort: Set Code (A-Z)</option>
+                    <option value="id-desc">Sort: Set Code (Z-A)</option>
+                    <option value="name-asc">Sort: Name (A-Z)</option>
+                    <option value="name-desc">Sort: Name (Z-A)</option>
+                </select>
+                
+                <div style="display: flex; gap: 4px; background: var(--navy-3); padding: 4px; border-radius: 6px; border: 1px solid var(--border-dim);">
+                    <button id="btn-grid-view" onclick="setView('grid')" style="background: var(--brand-main); color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; transition: 0.2s;"><i class="ti ti-layout-grid"></i></button>
+                    <button id="btn-list-view" onclick="setView('list')" style="background: transparent; color: var(--text-dim); border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; transition: 0.2s;"><i class="ti ti-layout-list"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-chips" id="filter-chips">
+            <button class="chip active" onclick="setChipFilter('', this)">All Cards</button>
+            <button class="chip" onclick="setChipFilter('support', this)">Support</button>
+            <button class="chip" onclick="setChipFilter('PC', this)">PC</button>
+            <button class="chip" onclick="setChipFilter('oshi', this)">Oshi</button>
+            <button class="chip" onclick="setChipFilter('cheer', this)">Cheer</button>
+            <button class="chip" onclick="setChipFilter('#debut', this)">Debut</button>
+            <button class="chip" onclick="setChipFilter('#1st', this)">1st</button>
+            <button class="chip" onclick="setChipFilter('#2nd', this)">2nd</button>
+            <button class="chip" onclick="setChipFilter('#buzz', this)">Buzz</button>
+        </div>
+
+        <div class="card-grid" id="scanned-pool">
+            <div id="db-loading-state" class="db-loader-container">
+                <img src="image_a69c0a.png" class="holo-logo-loader" alt="Loading..." />
+                <div class="loader-text">Compiling Database...</div>
+            </div>
+        </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ABOUT CREDITS MODAL -->
+<div id="about-overlay" class="about-overlay" onclick="closeAboutModal()"></div>
+<div id="about-modal" class="about-modal">
+    <div class="about-header">
+        <h3>About hOCG DB</h3>
+        <button class="btn-close-modal" onclick="closeAboutModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="about-content">
+        <p><strong>Developed by:</strong> Siuspras</p>
+        <p><strong>Translations provided by:</strong> ogbajoj<br>
+           <a href="https://docs.google.com/spreadsheets/d/1IdaueY-Jw8JXjYLOhA9hUd2w0VRBao9Z1URJwmCWJ64/edit?pli=1&gid=975361685#gid=975361685" target="_blank"><i class="ti ti-external-link"></i> View Translation Sheet</a>
+        </p>
+        <p><strong>Card Images sourced from:</strong> Yuyu-tei<br>
+           <a href="https://yuyu-tei.jp/top/hocg" target="_blank"><i class="ti ti-external-link"></i> Visit Yuyu-tei</a>
+        </p>
+        <hr style="border-color: var(--border-dim); margin: 20px 0;">
+        
+        <!-- VISITOR COUNTER -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border-dim);">
+            <span style="font-weight: 700; color: var(--text-mid); font-size: 14px;">Total Visitors</span>
+            <span id="visitor-count" style="font-weight: 800; color: var(--brand-main); font-size: 16px; background: var(--navy-4); padding: 2px 8px; border-radius: 4px; border: 0.5px solid var(--border-mid);">...</span>
+        </div>
+        
+        <hr style="border-color: var(--border-dim); margin: 20px 0;">
+        <p style="font-size: 12px; color: var(--text-dim); margin: 0; line-height: 1.4;">
+            This is an unofficial fan-made application. Not affiliated with or endorsed by COVER Corp. or Hololive Production. All intellectual property belongs to their respective owners.
+        </p>
+    </div>
+</div>
+
+<div id="sheet-overlay" class="sheet-overlay" onclick="closeBottomSheet()"></div>
+<div id="mobile-bottom-sheet" class="bottom-sheet">
+    <div class="sheet-drag-area" id="sheet-drag-area">
+        <div class="sheet-handle"></div>
+    </div>
+    <div class="sheet-content" id="sheet-content">
+        </div>
+</div>
+
+<script>
+  // SVG Fallback for Missing Low-Res Images
+  const fallbackImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 336'%3E%3Crect width='240' height='336' fill='%2315202B' rx='12'/%3E%3Crect x='10' y='10' width='220' height='316' fill='none' stroke='%2341C3E3' stroke-width='2' stroke-dasharray='6 6' rx='8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='28' font-weight='bold' fill='%2341C3E3' opacity='0.3'%3EhOCG%3C/text%3E%3C/svg%3E";
+
+  const csvFilesToLoad = [
+      'hBP01.csv', 'hBP02.csv', 'hBP03.csv', 'hBP04.csv',
+      'hBP05.csv', 'hBP06.csv', 'hBP07.csv','hBP08.csv', 'hSD.csv'
+  ];
+
+  let masterCardPool = [];
+  let currentFilteredPool = [];
+  let renderedCount = 0;
+  const CHUNK_SIZE = 40; 
+
+  let currentSort = "id-asc";
+
+  const synergyDictionary = {
+      "holox": ["la+", "lui", "koyori", "chloe", "iroha", "holox"],
+      "myth": ["calliope", "kiara", "ina'nis", "gura", "amelia", "myth"],
+      "promise": ["fauna", "kronii", "mumei", "baelz", "irys", "promise"],
+      "advent": ["shiori", "bijou", "nerissa", "fuwawa", "mococo", "fuwamoco", "advent"],
+      "justice": ["elizabeth", "gigi", "cecilia", "raora", "justice"],
+      "gamers": ["fubuki", "mio", "okayu", "korone", "gamers"],
+      "fantasy": ["pekora", "flare", "noel", "marine", "fantasy"],
+      "gen 0": ["sora", "robocosan", "azki", "miko", "suisei"],
+      "gen 1": ["mel", "fubuki", "matsuri", "aki", "haato"],
+      "gen 2": ["aqua", "shion", "ayame", "choco", "subaru"],
+      "nepolabo": ["lamy", "nene", "botan", "polka", "nepolabo"],
+      "regloss": ["ao", "kanade", "ririka", "raden", "hajime"],
+      "flow glow": ["riona", "niko", "mizumiya", "chihaya", "vivi"],
+      "holo id": ["moona", "risu", "iofi", "reine", "ollie", "anya", "kobo", "kaela", "zeta", "holo id", "#id"],
+      "koyori": ["koyori", "green test tube", "kokoro", "koyori's assistant", "joshu-kun"],
+      "sora": ["tokino sora", "sora", "ankimo", "sora-tomo", "nun-nun"],
+      "azki": ["azki", "pioneers"],
+      "fubuki": ["shirakami fubuki", "fubuki", "sukon-bu", "mitama"],
+      "mio": ["ookami mio", "mio", "mio-fam", "pigeotaurus", "taurus", "fortune telling", "tarot"],
+      "watame": ["tsunomaki watame", "watame", "watamates", "watame's hammer"],
+      "nene": ["momosuzu nene", "nene", "nekko", "giraffe stag beetle", "beetle"],
+      "zeta": ["vestia zeta", "zeta", "zecretary", "bazo"],
+      "kronii": ["ouro kronii", "kronii", "kronies", "boros"],
+      "shiori": ["shiori novella", "shiori", "novellite", "bookmark"],
+      "kiara": ["takanashi kiara", "kiara", "kfp"],
+      "pekora": ["usada pekora", "pekora", "nousagi", "don-chan", "carrot"]
+  };
+
+  function getSynergyTerms(query) {
+      const lowerQuery = query.toLowerCase().trim();
+      for (const member in synergyDictionary) {
+          if (member.includes(lowerQuery) || lowerQuery.includes(member)) {
+              return synergyDictionary[member];
+          }
+      }
+      return [lowerQuery];
+  }
+
+  function getTypeClass(type) {
+      if (type === "Oshi") return "oshi";
+      if (type === "Holomem") return "member";
+      if (type === "Support") return "support";
+      if (type === "Cheer") return "cheer";
+      return "support";
+  }
+
+  function getIconClass(type) {
+      if (type === "Oshi") return "ti-star";
+      if (type === "Holomem") return "ti-device-gamepad-2";
+      if (type === "Support") return "ti-bolt";
+      if (type === "Cheer") return "ti-heart";
+      return "ti-cards";
+  }
+
+  function parseCSV(text) {
+      let result = []; let row = []; let inQuotes = false; let val = '';
+      for (let i = 0; i < text.length; i++) {
+          let char = text[i];
+          if (inQuotes) {
+              if (char === '"') {
+                  if (i + 1 < text.length && text[i + 1] === '"') { val += '"'; i++; } 
+                  else { inQuotes = false; }
+              } else { val += char; }
+          } else {
+              if (char === '"') { inQuotes = true; } 
+              else if (char === ',') { row.push(val.trim()); val = ''; } 
+              else if (char === '\n' || char === '\r') {
+                  row.push(val.trim()); result.push(row); row = []; val = '';
+                  if (char === '\r' && i + 1 < text.length && text[i + 1] === '\n') i++; 
+              } else { val += char; }
+          }
+      }
+      if (val !== '' || row.length > 0) { row.push(val.trim()); result.push(row); }
+      return result;
+  }
+
+  async function initializeDatabase() {
+      let combinedDatabase = [];
+      let seenIds = new Set();
+      
+      for (const fileName of csvFilesToLoad) {
+          try {
+              const response = await fetch(fileName);
+              if (!response.ok) continue;
+              const text = await response.text();
+              if (text.trim().toLowerCase().startsWith("<!doctype html") || text.trim().toLowerCase().startsWith("<html")) continue;
+
+              const rows = parseCSV(text);
+              if (rows.length < 2) continue;
+
+              const headers = rows[0].map(h => h.replace(/"/g, '').trim().toLowerCase());
+              let typeIdx = 3, hpIdx = 6, tagsIdx = -1, textIdx = 8; 
+              for (let i = 0; i < headers.length; i++) {
+                  if (headers[i].includes("type")) typeIdx = i;
+                  if (headers[i].includes("life") || headers[i].includes("hp")) hpIdx = i;
+                  if (headers[i].includes("tag")) tagsIdx = i;
+                  if (headers[i].includes("text")) textIdx = i;
+              }
+              
+              for (let i = 1; i < rows.length; i++) {
+                  const cols = rows[i];
+                  if (cols.length < 3) continue; 
+                  
+                  const setCode = cols[0]; const nameRaw = cols[1];
+                  if (!setCode || !nameRaw || setCode.toLowerCase().includes("setcode")) continue; 
+                  
+                  const finalCardId = setCode.trim();
+                  if (seenIds.has(finalCardId)) continue;
+                  seenIds.add(finalCardId);
+                  
+                  let cardName = nameRaw;
+                  const match = nameRaw.match(/\((.*?)\)/);
+                  if (match) cardName = match[1].trim();
+                  
+                  const typeRaw = cols[typeIdx] || "";
+                  let cardType = "Unknown"; let bloomLevel = null;
+                  
+                  if (typeRaw.toLowerCase().includes("holomem")) {
+                      if (typeRaw.includes("Oshi")) cardType = "Oshi";
+                      else {
+                          cardType = "Holomem";
+                          if (typeRaw.includes("Debut")) bloomLevel = "Debut";
+                          if (typeRaw.includes("1st")) bloomLevel = "1st";
+                          if (typeRaw.includes("2nd")) bloomLevel = "2nd";
+                          if (typeRaw.includes("Spot")) bloomLevel = "Spot";
+                          if (typeRaw.includes("Buzz")) bloomLevel = "Buzz";
+                          if (typeRaw.includes("PC")) bloomLevel = "PC";
+                      }
+                  } else if (typeRaw.includes("Support")) cardType = "Support";
+                  else if (typeRaw.includes("Cheer")) cardType = "Cheer";
+                  
+                  const hpRaw = cols[hpIdx];
+                  let hp = hpRaw ? parseInt(hpRaw.replace(/,/g, '')) : null;
+
+                  let rawSkills = cols[textIdx] || "None";
+                  let rawTags = tagsIdx !== -1 ? (cols[tagsIdx] || "") : "";
+                  let finalSkillsText = rawTags ? `${rawTags} | ${rawSkills}` : rawSkills;
+                  
+                  combinedDatabase.push({
+                      card_name: cardName, card_type: cardType, bloom_level: bloomLevel,
+                      card_id: finalCardId, hp: isNaN(hp) ? null : hp, skills_text: finalSkillsText, thumbnail: null,
+                      raw_type: typeRaw.toLowerCase() 
+                  });
+              }
+          } catch (error) { }
+      }
+      
+      masterCardPool = combinedDatabase;
+      sortPool();
+      document.getElementById("search-db-input").value = "";
+      document.getElementById("search-db-input2").value = "";
+      renderCardPool("");
+  }
+
+  function sortPool() {
+      masterCardPool.sort((a, b) => {
+          if (currentSort === "name-asc") return a.card_name.localeCompare(b.card_name);
+          if (currentSort === "name-desc") return b.card_name.localeCompare(a.card_name);
+          if (currentSort === "id-asc") return a.card_id.localeCompare(b.card_id);
+          if (currentSort === "id-desc") return b.card_id.localeCompare(a.card_id);
+          return 0;
+      });
+  }
+
+  document.getElementById("sort-select").addEventListener("change", (e) => {
+      currentSort = e.target.value;
+      sortPool();
+      renderCardPool(document.getElementById("search-db-input").value);
+  });
+
+  /* ── FILTER CHIP SYSTEM ── */
+  window.setChipFilter = function(tag, btn) {
+      document.querySelectorAll('.filter-chips .chip').forEach(c => c.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      
+      const searchInput = document.getElementById("search-db-input");
+      const searchInput2 = document.getElementById("search-db-input2");
+      if(searchInput) searchInput.value = tag;
+      if(searchInput2) searchInput2.value = tag;
+      
+      renderCardPool(tag);
+  };
+
+  window.setView = function(mode) {
+      const dbGrid = document.getElementById('scanned-pool');
+      const gridBtn = document.getElementById("btn-grid-view");
+      const listBtn = document.getElementById("btn-list-view");
+
+      if (mode === 'list') {
+          dbGrid.classList.add('list-view');
+          listBtn.style.background = "var(--brand-main)"; listBtn.style.color = "white";
+          gridBtn.style.background = "transparent"; gridBtn.style.color = "var(--text-dim)";
+      } else {
+          dbGrid.classList.remove('list-view');
+          gridBtn.style.background = "var(--brand-main)"; gridBtn.style.color = "white";
+          listBtn.style.background = "transparent"; listBtn.style.color = "var(--text-dim)";
+      }
+  };
+
+  window.toggleAccordion = function(element) {
+      const cardItem = element.closest('.card-item');
+      const allExpanded = document.querySelectorAll('.card-item.expanded');
+      allExpanded.forEach(acc => {
+          if (acc !== cardItem) {
+              acc.classList.remove('expanded');
+              acc.querySelector('.list-content').style.maxHeight = null;
+          }
+      });
+
+      cardItem.classList.toggle('expanded');
+      const content = cardItem.querySelector('.list-content');
+      
+      if (cardItem.classList.contains('expanded')) {
+          content.style.maxHeight = (content.scrollHeight + 50) + "px";
+          setTimeout(() => { cardItem.scrollIntoView({ behavior: "smooth", block: "nearest" }); }, 250);
+      } else {
+          content.style.maxHeight = null;
+      }
+  };
+
+  function getDeck() { return localStorage.getItem('ocgCustomDeck') ? JSON.parse(localStorage.getItem('ocgCustomDeck')) : []; }
+  
+  function saveDeck(deckArray) { 
+      localStorage.setItem('ocgCustomDeck', JSON.stringify(deckArray)); 
+      renderDeck(); 
+      updateBookmarkButtons(); 
+  }
+  
+  function addCardToDeck(cardData) {
+      let deck = getDeck();
+      if (!deck.some(card => card.card_id === cardData.card_id)) { deck.push(cardData); saveDeck(deck); }
+  }
+
+  function updateBookmarkButtons() {
+      const savedCardIds = new Set(getDeck().map(c => c.card_id));
+      document.querySelectorAll('.bookmark-btn').forEach(btn => {
+          const cardId = btn.getAttribute('data-card-id');
+          if (savedCardIds.has(cardId)) {
+              btn.className = "bookmark-btn saved";
+              btn.innerHTML = "<i class='ti ti-star-filled'></i>";
+              btn.onclick = (e) => { e.stopPropagation(); removeCardFromDeckByCardId(cardId); };
+          } else {
+              btn.className = "bookmark-btn unsaved";
+              btn.innerHTML = "<i class='ti ti-star'></i>";
+              btn.onclick = (e) => { e.stopPropagation(); window.handleAddClick(cardId); };
+          }
+      });
+  }
+
+  function removeCardFromDeckByCardId(cardId) {
+      let deck = getDeck();
+      const index = deck.findIndex(c => c.card_id === cardId);
+      if(index > -1) { deck.splice(index, 1); saveDeck(deck); }
+  }
+
+  function formatSkillText(card) {
+      let rawText = card.skills_text || "None";
+      let text = rawText.toString().replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
+      
+      let tags = "";
+      let mainText = text;
+
+      if (mainText.includes('|')) {
+          let parts = mainText.split('|');
+          tags = parts[0].trim();
+          mainText = parts.slice(1).join('|').trim();
+      }
+
+      let hashMatch = mainText.match(/#[a-zA-Z0-9_]+/g);
+      if (hashMatch) {
+          let extractedTags = hashMatch.join(" ");
+          if (tags) { tags = [...new Set(tags.split(/\s+/).concat(extractedTags.split(/\s+/)))].join(' '); } else { tags = extractedTags; }
+          mainText = mainText.replace(/(<br>\s*)+$/g, '').replace(/^(<br>\s*)+/g, '').trim();
+      }
+
+      let skillText = mainText; 
+      let artsText = "-";
+      let isHolomem = card.card_type === "Holomem";
+
+      if (isHolomem) {
+          let artsIndex = mainText.search(/(?:^|<br>)\s*Arts(?:\s|:)/);
+          if (artsIndex !== -1) {
+              skillText = mainText.substring(0, artsIndex).trim();
+              artsText = mainText.substring(artsIndex).replace(/^(?:<br>)?\s*Arts:?\s*/, '').trim();
+          } else if (mainText.includes("Arts:") || mainText.includes("Arts ")) {
+              let splitIndex = mainText.indexOf("Arts:");
+              if (splitIndex === -1) splitIndex = mainText.indexOf("Arts ");
+              if (splitIndex !== -1 && splitIndex !== 0) {
+                  skillText = mainText.substring(0, splitIndex).trim();
+                  artsText = mainText.substring(splitIndex + 5).trim();
+              } else if (splitIndex === 0) {
+                  skillText = "None"; artsText = mainText.substring(5).trim();
+              }
+          }
+      }
+
+      if (skillText === "" || skillText === "-" || skillText === "<br>") skillText = "No skills listed.";
+      if (skillText.endsWith("<br>")) skillText = skillText.substring(0, skillText.length - 4).trim();
+      if (skillText.startsWith("<br>")) skillText = skillText.substring(4).trim();
+
+      let isLimited = false;
+      if (/\blimited\b/i.test(skillText) || /#?limited/i.test(tags)) {
+          isLimited = true;
+          tags = tags.replace(/#?limited/i, '').replace(/\s+/g, ' ').trim();
+          skillText = skillText.replace(/^Limited[:\.\-]?\s*(?:<br>\s*)*/i, '');
+          skillText = skillText.replace(/<br>\s*Limited[:\.\-]?\s*(?:<br>\s*)*/i, '<br>');
+          if (skillText === "" || skillText === "<br>") skillText = "No skills listed.";
+      }
+
+      let label1 = "Card Effect";
+      let label1Color = "var(--holo-blue)"; 
+      let label1TextColor = "#FFF";
+      
+      let label2 = "Card Effect";
+      let label2Color = "var(--holo-romance)"; 
+      let label2TextColor = "#FFF";
+      
+      let isTool = card.raw_type && card.raw_type.includes("tool");
+      let isSupport = card.card_type === "Support" && !isTool;
+      let isOshi = card.card_type === "Oshi";
+
+      if (isHolomem) {
+          if (skillText.includes("Bloom Effect") || skillText.includes("Bloom effect")) {
+              label1 = "Bloom Effect"; skillText = skillText.replace(/Bloom [Ee]ffect:?\s*/, '');
+              label1Color = "var(--holo-blue)"; 
+          } else if (skillText.includes("Collab Effect") || skillText.includes("Collab effect")) {
+              label1 = "Collab Effect"; skillText = skillText.replace(/Collab [Ee]ffect:?\s*/, '');
+              label1Color = "var(--holo-rose)"; 
+          } else if (skillText.includes("Gift")) {
+              label1 = "Gift"; skillText = skillText.replace(/Gift:?\s*/, '');
+              label1Color = "var(--holo-teal)"; 
+              label1TextColor = "#FFF";
+          } else if (skillText !== "None" && skillText !== "No skills listed.") {
+              label1 = "Auto Effect"; skillText = skillText.replace(/Auto [Ee]ffect:?\s*/, '');
+              label1Color = "var(--brand-orange)"; 
+              label1TextColor = "#000";
+          }
+      } else {
+          label1 = "Card Effect";
+          if (isOshi) label1Color = "var(--holo-rose)";
+          if (card.card_type === "Cheer") label1Color = "var(--brand-orange)";
+          if (isSupport) label1Color = "var(--holo-blue)";
+          if (isTool) {
+              label1 = "Activation"; label1Color = "var(--holo-rose)"; label1TextColor = "#FFF";
+              label2 = "Card Effect"; label2Color = "var(--holo-blue)";
+          }
+      }
+
+      let formattedTagsHtml = "";
+      if (tags && tags.trim() !== "") {
+          formattedTagsHtml = `
+              <div class="effect-box">
+                  <div class="effect-label" style="background: var(--brand-orange); color: #000;">Tag</div>
+                  <div class="effect-text" style="color: var(--holo-blue); font-weight:700;">${tags}</div>
+              </div>`;
+      }
+
+      let limitedBadgeHtml = isLimited ? `<div class="effect-label" style="background: var(--danger); color: #FFF; margin-left: 6px;">Limited</div>` : "";
+
+      let formattedSkillHtml = "";
+      if (skillText !== "None" && skillText !== "No skills listed." && skillText.trim() !== "") {
+          formattedSkillHtml = `
+              <div class="effect-box">
+                  <div class="effect-label" style="background: ${label1Color}; color: ${label1TextColor};">${label1}</div>${limitedBadgeHtml}
+                  <div class="effect-text">${skillText}</div>
+              </div>`;
+      }
+
+      let formattedArtsHtml = (artsText !== "-" && artsText !== "") ? `
+          <div class="effect-box">
+              <div class="effect-label" style="background: ${label2Color}; color: ${label2TextColor};">${label2}</div>
+              <div class="effect-text">${artsText}</div>
+          </div>` : "";
+
+      return { skillText, artsText, isLimited, formattedTagsHtml, formattedSkillHtml, formattedArtsHtml };
+  }
+
+  function renderCardPool(searchQuery = "") {
+      const poolContainer = document.getElementById("scanned-pool");
+      const countDisplay = document.getElementById("cardCount");
+      if (masterCardPool.length === 0) return;
+
+      const searchTerms = searchQuery.trim() !== "" ? getSynergyTerms(searchQuery) : [];
+      
+      currentFilteredPool = masterCardPool.filter(card => {
+          const nameSafe = card.card_name ? card.card_name.toLowerCase() : ""; 
+          const idSafe = card.card_id ? card.card_id.toLowerCase() : "";
+          const typeSafe = card.raw_type ? card.raw_type : (card.card_type ? card.card_type.toLowerCase() : "");
+          const skillSafe = card.skills_text ? card.skills_text.toLowerCase() : "";
+          const bloomSafe = card.bloom_level ? card.bloom_level.toLowerCase() : "";
+          
+          if (searchTerms.length === 0) return true;
+
+          return searchTerms.some(term => {
+              const strictTypes = ["oshi", "holomem", "support", "cheer", "tool", "event", "mascot", "fan", "staff", "item", "limited", "debut", "1st", "2nd", "spot"];
+              if (strictTypes.includes(term)) return typeSafe.includes(term) || bloomSafe.includes(term);
+              if (term.startsWith('#')) return skillSafe.includes(term) || nameSafe.includes(term) || bloomSafe.includes(term.substring(1));
+              return nameSafe.includes(term) || idSafe.includes(term) || typeSafe.includes(term) || skillSafe.includes(term) || bloomSafe.includes(term);
+          });
+      });
+
+      poolContainer.innerHTML = "";
+      renderedCount = 0;
+      countDisplay.textContent = currentFilteredPool.length;
+
+      if (currentFilteredPool.length === 0) {
+          poolContainer.innerHTML = `<div class="empty-state">No cards found matching "${searchQuery}".</div>`;
+          return;
+      }
+
+      loadNextChunk(); 
+  }
+
+  function loadNextChunk() {
+      const poolContainer = document.getElementById("scanned-pool");
+      const currentBookmarks = getDeck();
+      const savedCardIds = new Set(currentBookmarks.map(c => c.card_id));
+      
+      const endIndex = Math.min(renderedCount + CHUNK_SIZE, currentFilteredPool.length);
+      let htmlBuilder = ""; 
+
+      for (let i = renderedCount; i < endIndex; i++) {
+          const card = currentFilteredPool[i];
+          const isSaved = savedCardIds.has(card.card_id);
+          const type = card.card_type || "Type";
+          const level = card.bloom_level ? `[${card.bloom_level}] ` : "";
+          
+          const typeClass = getTypeClass(card.card_type);
+          const iconClass = getIconClass(card.card_type);
+          const setPrefix = card.card_id.split('-')[0];
+          const imagePath = card.thumbnail ? card.thumbnail : `images/${setPrefix}/${card.card_id}.jpg`;
+          
+          const { formattedTagsHtml, formattedSkillHtml, formattedArtsHtml } = formatSkillText(card);
+          
+          let btnHtml = isSaved 
+              ? `<button class="bookmark-btn saved" data-card-id="${card.card_id}" onclick="event.stopPropagation(); window.removeCardFromDeckByCardId('${card.card_id}')"><i class="ti ti-star-filled"></i></button>` 
+              : `<button class="bookmark-btn unsaved" data-card-id="${card.card_id}" onclick='event.stopPropagation(); window.handleAddClick("${card.card_id}")'><i class="ti ti-star"></i></button>`;
+
+          let hpHtml = card.hp ? `<div class="tl-hp">HP: ${card.hp}</div>` : '';
+
+          htmlBuilder += `
+              <div class="card-item" tabindex="0" data-id="${card.card_id}" data-name="${card.card_name}" onclick="tapToggle(this)">
+                  
+                  <div class="card-face ${typeClass} grid-element">
+                      <img src="${imagePath}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImage}'" />
+                      <i class="ti ${iconClass}"></i>
+                      <span class="face-label">${type.toUpperCase()}</span>
+                  </div>
+                  <div class="card-meta grid-element">
+                      <span class="card-name-jp">${level}${card.card_name}</span>
+                      <span class="card-id">${card.card_id}</span>
+                      <div class="card-badges">
+                          <span class="badge ${typeClass}">${type.toUpperCase()}</span>
+                      </div>
+                  </div>
+                  <div class="translation-overlay grid-element">
+                      <div class="tl-header">
+                          <span class="tl-type badge ${typeClass}">${type.toUpperCase()}</span>
+                          ${btnHtml}
+                      </div>
+                      <div class="tl-title">${level}${card.card_name}</div>
+                      <div class="tl-scroll-area">
+                          ${formattedTagsHtml}
+                          ${formattedSkillHtml}
+                          ${formattedArtsHtml}
+                      </div>
+                      ${hpHtml}
+                  </div>
+
+                  <div class="list-header list-element" onclick="event.stopPropagation(); toggleAccordion(this)">
+                      <div class="list-thumb ${typeClass}">
+                          <img src="${imagePath}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImage}'" />
+                      </div>
+                      <div class="list-info">
+                          <div class="list-name">${level}${card.card_name}</div>
+                          <div class="list-sub">${type.toUpperCase()} • ${card.card_id}</div>
+                      </div>
+                      <div class="list-actions">
+                          ${btnHtml}
+                          <i class="ti ti-plus accordion-icon"></i>
+                      </div>
+                  </div>
+                  <div class="list-content list-element">
+                      <div class="list-content-inner">
+                          <div class="list-full-img">
+                              <img src="${imagePath}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImage}'" />
+                          </div>
+                          <div class="list-details">
+                              ${formattedTagsHtml}
+                              ${formattedSkillHtml}
+                              ${formattedArtsHtml}
+                              ${hpHtml}
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+          `;
+      }
+      poolContainer.insertAdjacentHTML('beforeend', htmlBuilder);
+      renderedCount = endIndex;
+
+      const targetUnrevealed = poolContainer.querySelectorAll('.card-item:not(.fade-in)');
+      targetUnrevealed.forEach((card, index) => {
+          setTimeout(() => {
+              card.classList.add('fade-in');
+          }, index * 20); 
+      });
+  }
+
+  // Desktop Scroll
+  document.getElementById("scanned-pool").addEventListener('scroll', function() {
+      if (window.innerWidth > 768) {
+          if (this.scrollTop + this.clientHeight >= this.scrollHeight - 600) {
+              if (renderedCount < currentFilteredPool.length) loadNextChunk();
+          }
+      }
+  });
+
+  // Mobile Scroll
+  document.querySelector('.main-panel').addEventListener('scroll', function() {
+      if (window.innerWidth <= 768) {
+          if (this.scrollTop + this.clientHeight >= this.scrollHeight - 800) {
+              if (renderedCount < currentFilteredPool.length) loadNextChunk();
+          }
+      }
+  });
+
+  /* ── NATIVE APP BOTTOM SHEET SWIPE-TO-CLOSE LOGIC ── */
+  const dragArea = document.getElementById("sheet-drag-area");
+  const bottomSheet = document.getElementById("mobile-bottom-sheet");
+  let startY = 0;
+  let currentY = 0;
+  let isDragging = false;
+
+  dragArea.addEventListener("touchstart", (e) => {
+      startY = e.touches[0].clientY;
+      currentY = startY;
+      isDragging = true;
+      bottomSheet.style.transition = "none"; 
+  }, { passive: true });
+
+  dragArea.addEventListener("touchmove", (e) => {
+      if (!isDragging) return;
+      currentY = e.touches[0].clientY;
+      let deltaY = currentY - startY;
+      
+      if (deltaY > 0) {
+          bottomSheet.style.transform = `translateY(${deltaY}px)`;
+      }
+  }, { passive: true });
+
+  dragArea.addEventListener("touchend", () => {
+      if (!isDragging) return;
+      isDragging = false;
+      let deltaY = currentY - startY;
+      
+      bottomSheet.style.transition = "transform 0.3s ease, bottom 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)";
+      
+      if (deltaY > 60) {
+          closeBottomSheet();
+      } else {
+          bottomSheet.style.transform = "translateY(0)";
+      }
+  });
+
+  function tapToggle(el) {
+      if (window.innerWidth > 768) return; 
+      if (el.closest('.card-grid').classList.contains('list-view')) return; 
+      
+      const cardId = el.getAttribute('data-id');
+      if (cardId) openBottomSheet(cardId);
+  }
+
+  function openBottomSheet(cardId) {
+      const card = masterCardPool.find(c => c.card_id === cardId);
+      if (!card) return;
+      
+      const isSaved = getDeck().some(c => c.card_id === cardId);
+      const { formattedTagsHtml, formattedSkillHtml, formattedArtsHtml } = formatSkillText(card);
+      const typeClass = getTypeClass(card.card_type);
+      const type = card.card_type || "Type";
+      const level = card.bloom_level ? `[${card.bloom_level}] ` : "";
+      
+      let btnHtml = isSaved 
+        ? `<button class="bookmark-btn saved" onclick="toggleBookmarkFromSheet('${card.card_id}')"><i class="ti ti-star-filled"></i></button>` 
+        : `<button class="bookmark-btn unsaved" onclick="toggleBookmarkFromSheet('${card.card_id}')"><i class="ti ti-star"></i></button>`;
+
+      let hpHtml = card.hp ? `<div class="tl-hp" style="font-size: 22px; color: #FFD700; font-weight: 800; text-align: center; padding-top: 12px; margin-top: 12px; border-top: 1px solid var(--border-dim);">HP: ${card.hp}</div>` : '';
+      
+      const setPrefix = card.card_id.split('-')[0];
+      const imagePath = card.thumbnail ? card.thumbnail : `images/${setPrefix}/${card.card_id}.jpg`;
+      
+      document.getElementById("sheet-content").innerHTML = `
+          <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+              <img src="${imagePath}" style="width: 110px; border-radius: 8px; border: 1px solid var(--border-dim); object-fit: cover;" onerror="this.onerror=null; this.src='${fallbackImage}'"/>
+              <div style="flex: 1;">
+                  <div class="tl-header" style="margin-bottom: 8px; justify-content: flex-start; gap: 12px;">
+                      <span class="tl-type badge ${typeClass}">${type.toUpperCase()}</span>
+                      ${btnHtml}
+                  </div>
+                  <div class="tl-title" style="font-size: 18px; color: var(--text-bright); font-weight: 800; line-height: 1.2;">${level}${card.card_name}</div>
+                  <div style="font-size: 13px; color: var(--text-mid); margin-top: 6px; font-weight: 600;">${card.card_id}</div>
+              </div>
+          </div>
+          ${formattedTagsHtml}
+          ${formattedSkillHtml}
+          ${formattedArtsHtml}
+          ${hpHtml}
+      `;
+      
+      document.getElementById("mobile-bottom-sheet").classList.add("open");
+      document.getElementById("sheet-overlay").classList.add("open");
+  }
+
+  function closeBottomSheet() {
+      document.getElementById("mobile-bottom-sheet").classList.remove("open");
+      document.getElementById("sheet-overlay").classList.remove("open");
+      setTimeout(() => {
+          document.getElementById("mobile-bottom-sheet").style.transform = "translateY(0)";
+      }, 350);
+  }
+
+  window.toggleBookmarkFromSheet = function(cardId) {
+      const savedCardIds = new Set(getDeck().map(c => c.card_id));
+      if (savedCardIds.has(cardId)) {
+          removeCardFromDeckByCardId(cardId);
+      } else {
+          handleAddClick(cardId);
+      }
+      openBottomSheet(cardId); 
+  };
+
+  /* ── ABOUT MODAL LOGIC ── */
+  window.openAboutModal = function() {
+      document.getElementById("about-modal").classList.add("open");
+      document.getElementById("about-overlay").classList.add("open");
+  };
+  window.closeAboutModal = function() {
+      document.getElementById("about-modal").classList.remove("open");
+      document.getElementById("about-overlay").classList.remove("open");
+  };
+
+  // BOOKMARKS GRID RENDERING
+  function renderDeck() {
+      const deckContainer = document.getElementById("current-deck");
+      const countDisplay = document.getElementById("deck-count");
+      const deck = getDeck();
+      if(countDisplay) countDisplay.innerText = deck.length;
+
+      if (deck.length === 0) {
+          deckContainer.innerHTML = `<div class="empty-state">You haven't bookmarked any cards yet. Search below and tap the star icon!</div>`;
+          return;
+      }
+
+      let htmlBuilder = "";
+      deck.forEach((card) => {
+          const type = card.card_type || "Type";
+          const level = card.bloom_level ? `[${card.bloom_level}] ` : "";
+          
+          const typeClass = getTypeClass(card.card_type);
+          const iconClass = getIconClass(card.card_type);
+          const setPrefix = card.card_id.split('-')[0];
+          const imagePath = card.thumbnail ? card.thumbnail : `images/${setPrefix}/${card.card_id}.jpg`;
+          
+          const { formattedTagsHtml, formattedSkillHtml, formattedArtsHtml } = formatSkillText(card);
+          
+          let btnHtml = `<button class="bookmark-btn saved" data-card-id="${card.card_id}" onclick="event.stopPropagation(); window.removeCardFromDeckByCardId('${card.card_id}')"><i class="ti ti-star-filled"></i></button>`;
+
+          let hpHtml = card.hp ? `<div class="tl-hp">HP: ${card.hp}</div>` : '';
+
+          htmlBuilder += `
+              <div class="card-item" tabindex="0" data-id="${card.card_id}" data-name="${card.card_name}" onclick="tapToggle(this)">
+                  
+                  <div class="card-face ${typeClass} grid-element">
+                      <img src="${imagePath}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImage}'" />
+                      <i class="ti ${iconClass}"></i>
+                      <span class="face-label">${type.toUpperCase()}</span>
+                  </div>
+                  <div class="card-meta grid-element">
+                      <span class="card-name-jp">${level}${card.card_name}</span>
+                      <span class="card-id">${card.card_id}</span>
+                      <div class="card-badges">
+                          <span class="badge ${typeClass}">${type.toUpperCase()}</span>
+                      </div>
+                  </div>
+                  <div class="translation-overlay grid-element">
+                      <div class="tl-header">
+                          <span class="tl-type badge ${typeClass}">${type.toUpperCase()}</span>
+                          ${btnHtml}
+                      </div>
+                      <div class="tl-title">${level}${card.card_name}</div>
+                      <div class="tl-scroll-area">
+                          ${formattedTagsHtml}
+                          ${formattedSkillHtml}
+                          ${formattedArtsHtml}
+                      </div>
+                      ${hpHtml}
+                  </div>
+
+                  <div class="list-header list-element" onclick="event.stopPropagation(); toggleAccordion(this)">
+                      <div class="list-thumb ${typeClass}">
+                          <img src="${imagePath}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImage}'" />
+                      </div>
+                      <div class="list-info">
+                          <div class="list-name">${level}${card.card_name}</div>
+                          <div class="list-sub">${type.toUpperCase()} • ${card.card_id}</div>
+                      </div>
+                      <div class="list-actions">
+                          ${btnHtml}
+                          <i class="ti ti-plus accordion-icon"></i>
+                      </div>
+                  </div>
+                  <div class="list-content list-element">
+                      <div class="list-content-inner">
+                          <div class="list-full-img">
+                              <img src="${imagePath}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImage}'" />
+                          </div>
+                          <div class="list-details">
+                              ${formattedTagsHtml}
+                              ${formattedSkillHtml}
+                              ${formattedArtsHtml}
+                              ${hpHtml}
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+          `;
+      });
+      deckContainer.innerHTML = htmlBuilder;
+
+      const targetDeckUnrevealed = deckContainer.querySelectorAll('.card-item:not(.fade-in)');
+      targetDeckUnrevealed.forEach((card, index) => {
+          setTimeout(() => {
+              card.classList.add('fade-in');
+          }, index * 25);
+      });
+  }
+
+  window.exportDecklist = function() {
+      const deck = getDeck();
+      if (deck.length === 0) return;
+      let exportText = "My Bookmarked Cards:\n\n";
+      deck.forEach(card => {
+          const level = card.bloom_level ? `[${card.bloom_level}] ` : "";
+          const { skillText, artsText, isLimited } = formatSkillText(card);
+          exportText += `Code: ${card.card_id}\nName: ${level}${card.card_name}\n`;
+          if (skillText !== "None" && skillText !== "No skills listed." && skillText.trim() !== "") {
+              let limitedLabel = isLimited ? "[LIMITED] " : "";
+              exportText += `Skill:\n${limitedLabel}${skillText.replace(/<br>/g, '\n')}\n`;
+          }
+          if(artsText !== "-" && artsText !== "") exportText += `Arts:\n${artsText.replace('Arts:', '').trim().replace(/<br>/g, '\n')}\n`;
+          exportText += `\n`;
+      });
+      navigator.clipboard.writeText(exportText.trim()).then(() => alert("Bookmark list copied to your clipboard!"));
+  };
+
+  window.clearAllBookmarks = function() {
+      if (confirm("Are you sure you want to remove ALL bookmarked cards?")) saveDeck([]);
+  };
+
+  let searchTimeout;
+  document.getElementById("search-db-input").addEventListener("input", (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => { 
+          document.querySelectorAll('.filter-chips .chip').forEach(c => c.classList.remove('active'));
+          renderCardPool(e.target.value); 
+      }, 150);
+  });
+  document.getElementById("search-db-input2").addEventListener("input", (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => { 
+          document.querySelectorAll('.filter-chips .chip').forEach(c => c.classList.remove('active'));
+          renderCardPool(e.target.value); 
+      }, 150);
+  });
+  
+  window.handleAddClick = function(cardId) { 
+      const cardToCopy = masterCardPool.find(c => c.card_id === cardId);
+      if(cardToCopy) addCardToDeck(cardToCopy); 
+  };
+
+  initializeDatabase();
+  renderDeck();
+
+  /* ── VISITOR COUNTER ── */
+  async function updateVisitorCounter() {
+      const counterEl = document.getElementById("visitor-count");
+      if (!counterEl) return;
+      
+      try {
+          const response = await fetch("https://api.counterapi.dev/v1/hocg_db_siuspras/visits/up");
+          if (response.ok) {
+              const data = await response.json();
+              let count = data.count;
+              let displayStr = "";
+              
+              if (count < 10) {
+                  displayStr = count.toString();
+              } else {
+                  const magnitude = Math.pow(10, Math.floor(Math.log10(count)));
+                  const rounded = Math.floor(count / magnitude) * magnitude;
+                  displayStr = rounded.toLocaleString() + "+";
+              }
+              
+              counterEl.innerText = displayStr;
+          } else {
+              counterEl.innerText = "Online";
+          }
+      } catch (error) {
+          counterEl.innerText = "1"; 
+      }
+  }
+
+  updateVisitorCounter();
+</script>
+</body>
+</html>

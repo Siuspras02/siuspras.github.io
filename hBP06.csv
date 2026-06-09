@@ -1,0 +1,905 @@
+Setcode,"Card Name ""JP (EN)""",Image,Type,Rarity,Color,LIFE/HP,Tags,Text,Alternate Art,Rarity
+hBP06-001,"ラオーラ・パンテーラ
+(Raora Panthera)",,Oshi holomem,OSR,White,5,,"Oshi Skill holo Power -2: BIG CAT means...
+[1/Turn] If your center holomem is <Raora Panthera>, reveal 1 holomem from your deck with the same card name as your collab holomem, and add it to hand. Then, shuffle the deck.
+
+SP Oshi Skill holo Power -1: BIG TROUBLE!!
+[1/Game] During this game, all of your <Raora Panthera> do not rest during the reset phase.
+
+[OUR is the same as SEC but without the signature]",,SEC
+hBP06-002,"響咲リオナ
+(Isaki Riona)",,Oshi holomem,OSR,White,5,,"Oshi Skill holo Power -2: I'll Do What I Like
+[1/Turn] Archive the top 2 cards of your deck. During this turn, your [center holomem and collab holomem] with #FLOW GLOW get Arts+20.
+
+SP Oshi Skill holo Power -1: And Live How I Want to!
+[1/Game] Usable if your deck has 5 or less cards, and your holomem with #FLOW GLOW downed your opponent's center holomem: Your opponent gets life-1.",,OUR
+hBP06-003,"風真いろは
+(Kazama Iroha)",,Oshi holomem,OSR,Green,5,,"Oshi Skill holo Power -2: Start by Taking Action If You're Lost!
+[1/Turn] Send the top card of your cheer deck to your [Buzz holomem or <Kazama Iroha> bloomed from a Buzz holomem].
+
+SP Oshi Skill holo Power -2: Unlimited Strength, I Daresay
+[1/Game] During this turn, all <Kazama Iroha> on your stage get Arts+10 for each cheer on your stage. Then, if a Buzz holomem is on your stage, draw 3 cards.
+
+[OUR is the same as SEC but without the signature]",,SEC
+hBP06-004,"百鬼あやめ
+(Nakiri Ayame)",,Oshi holomem,OSR,Red,5,,"Oshi Skill holo Power -2: Oni Inferno
+[1/Turn] Archive the top 1~2 cards of your cheer deck: Draw 1 card for each cheer archived.
+
+SP Oshi Skill holo Power -2: Two Blades Strike as One! Oni Cleave
+[1/Game] Deal 20 special damage to your opponent's center holomem or collab holomem for each red cheer in your archive.
+
+[OUR is the same as SEC but without the signature]",,SEC
+hBP06-005,"ハコス・ベールズ
+(Hakos Baelz)",,Oshi holomem,OSR,Red,5,,"Oshi Skill holo Power -1: Embodiment of Chaos
+[1/Turn] If you used your SP Oshi Skill during this game, roll a die once. Draw cards until your hand has the same number as the result.
+
+SP Oshi Skill holo Power -2: 🎲ƎNOZ N∩Ⅎ ƎH⊥ O⊥ ƎWOϽ˥ƎM🎲
+[1/Game] Roll a die once. Archive a number of cards from your hand equal to the result.
+
+[SEC version only available in EN - OUR (available in EN and JP) is the same as SEC but without the signature]",,SEC
+hBP06-006,"ムーナ・ホシノヴァ
+(Moona Hoshinova)",,Oshi holomem,OSR,Blue,5,,"Oshi Skill holo Power -1: Bright as the Full Moon
+[1/Turn] Usable when special damage is dealt to your opponent's holomem: Deal 20 special damage to your opponent's center holomem and collab holomem.
+
+SP Oshi Skill holo Power -2: Chorus of the Twin Moons
+[1/Game] If the total number of cheers on both players' stage is 6 or more, reveal 1~3 cheers from your cheer deck, and send them divided as you choose to your holomem with #ID Gen 1. Then, shuffle the cheer deck.",,OUR
+hBP06-007,"ロボ子さん
+(Robocosan)",,Oshi holomem,OSR,Purple,6,,"Oshi Skill holo Power -2: I'm Not Broken!!
+[1/Turn] Usable if your <Robocosan> is downed during your opponent's turn: Archive the top 2 cards of your deck. Then, return 1 <Robocosan> from your archive to hand.
+
+SP Oshi Skill holo Power -1: Prepare to Be Dazzled by My ""High-Spec""♡
+[1/Game] Draw 2 cards, and archive 2 cards from hand. Then, you may choose any number of <Roboser> from your archive, and attach them as you choose to your <Robocosan>.",,OUR
+hBP06-008,"夏色まつり
+(Natsuiro Matsuri)",,Oshi holomem,OSR,Yellow,5,,"Oshi Skill holo Power -2: Festival Wasshoi!!!
+[1/Turn] Roll a die once. If the result is greater than or equal to your life, add 1 card from your deck to hand. Then, shuffle your deck. If the result is less than or equal to your life, put the top card of your deck to holo Power.
+
+SP Oshi Skill holo Power -1: I Absolutely Want to Win!!!!!!!
+[1/Game] If your center holomem is <Natsuiro Matsuri>, during this turn, the number of LIMITED support cards you can use becomes 2.
+
+[OUR is the same as SEC but without the signature]",,SEC
+hBP06-009,"ラオーラ・パンテーラ
+(Raora Panthera)",,Debut holomem,C,White,110,#EN #Justice #Kemomimi #Painting,"Gift: BIG PINK CAT
+[Center Position Only] Your collab holomem takes -10 damage.
+
+Arts: I See You!
+Cost: 1 any color
+Power: 30",,
+hBP06-010,"ラオーラ・パンテーラ
+(Raora Panthera)",,Debut holomem,U,White,110,#EN #Justice #Kemomimi #Painting,"Collab Effect: Best Team I Could Wish For
+If you went second and it is your first turn, reveal 1 [Debut holomem or Spot holomem] from your deck, and place it on stage. Then, shuffle the deck.
+
+Arts: Found Amazing Friends!
+Cost: 1 any color
+Power: 30",,
+hBP06-011,"ラオーラ・パンテーラ
+(Raora Panthera)",,1st holomem,C,White,160,#EN #Justice #Kemomimi #Painting,"Collab Effect: RAORAO
+Reveal 1 [Debut holomem or 1st holomem] with #Justice from your deck, and add it to hand. Then, shuffle the deck.
+
+Arts: Mamma Mia
+Cost: 1 any color
+Power: 30",,
+hBP06-012,"ラオーラ・パンテーラ
+(Raora Panthera)",,1st holomem,U,White,180,#EN #Justice #Kemomimi #Painting,"Arts: The REAL Queen is Here!
+Cost: 1 white
+Power: 30
+
+Arts: LA FINE
+Cost: 1 white, 2 any color
+Power: 70
+Draw 2 cards.",,
+hBP06-013,"ラオーラ・パンテーラ
+(Raora Panthera)",,1st Buzz holomem,R,White,250,#EN #Justice #Kemomimi #Painting,"Bloom Effect: CATCH ALL CHATTINI AROUND THE WORLD!!!
+Reveal 1 <Chattino> from your deck, and add it to hand. Then, shuffle the deck.
+
+Arts: Together We Will Conquer the World!
+Cost: 1 white
+Power: 30
+[Center Position Only] During this turn, your collab holomem with #Painting gets Arts+20.
+
+Extra: If this holomem is downed, you get life-2",,
+hBP06-014,"ラオーラ・パンテーラ
+(Raora Panthera)",,2nd holomem,RR,White,210,#EN #Justice #Kemomimi #Painting,"Gift: Dream Weaving Atelier
+When this holomem uses Arts, look at your holo Power. Reveal 1 card from among them, and add it to hand. If you added a card to hand, put 1 card from your hand to holo Power. Then, shuffle your holo Power.
+
+Arts: Rinascimento of Colors
+Cost: 1 white, 1 any color
+Power: 100, +50 vs purple
+[Center Position Only]During this turn, your collab holomem with #Painting gets Arts+50, and that holomem requires -1 colorless for its Arts.",,UR
+hBP06-015,"響咲リオナ
+(Isaki Riona)",,Debut holomem,C,White,110,"#DEV_IS
+#FLOW GLOW","Arts: WB-Riona!
+Cost: 1 any color
+Power: 30
+
+Extra: You may include any number of this holomem in the deck",,HR
+hBP06-016,"響咲リオナ
+(Isaki Riona)",,Debut holomem,U,White,110,"#DEV_IS
+#FLOW GLOW","Collab Effect: Let's Fight Together
+If you went second and it is your first turn, reveal 1 [holomem with Collab Effect and #FLOW GLOW] from your deck, and add it to hand. Then, shuffle the deck.
+
+Arts: Cya-Riona!
+Cost: 1 any color
+Power: 20",,
+hBP06-017,"響咲リオナ
+(Isaki Riona)",,1st holomem,C,White,160,"#DEV_IS
+#FLOW GLOW","Arts: Dream Is to Hold a Live at the Arena
+Cost: 1 any color
+Power: 40
+
+Arts: hololive Will Sweep Through Like a Typhoon
+Cost: 1 white, 1 any color
+Power: 60",,
+hBP06-018,"響咲リオナ
+(Isaki Riona)",,1st holomem,U,White,160,"#DEV_IS
+#FLOW GLOW","Collab Effect: The leader of FLOW GLOW
+During this turn, 1 of your holomem with #FLOW GLOW gets Arts+20.
+
+Arts: Brr! Brr!
+Cost: 1 any color
+Power: 30
+Archive the top card of your deck.",,
+hBP06-019,"響咲リオナ
+(Isaki Riona)",,1st holomem,R,White,150,"#DEV_IS
+#FLOW GLOW","Bloom Effect: Stoic and hates losing
+If your Oshi holomem is <Isaki Riona>, you may archive the top card of your deck:Draw 1 card.
+
+Arts: Surprisingly hot-blooded?
+Cost: 1 white
+Power: 40
+Archive the top card of your deck.",,
+hBP06-020,"響咲リオナ
+(Isaki Riona)",,2nd holomem,RR,White,200,"#DEV_IS
+#FLOW GLOW","Gift: Conductor of Will
+During your opponent's turn, when this holomem is downed, you may archive the top 2 cards of your deck. If you do, draw 1 card for each differently named holomem with #FLOW GLOW on your stage.
+
+Arts: Resonance Roar
+Cost: 1 white, 2 any color
+Power: 150+, +50 vs red
+Archive 1~3 cards from the top of your deck. This Arts gets +20 for each card archived.",,UR
+hBP06-021,"博衣こより
+(Hakui Koyori)",,2nd holomem,R,White,190,#JP #holoX #Kemomimi,"Collab Effect: Reaching Out to You
+Choose 1 holomem with #holoX on your stage. During this turn, the chosen holomem gets Arts+30. If a support card with #KOYO LABO is attached to this holomem, the chosen holomem gets Arts+50 instead.
+
+Arts: Page from Our Youth
+Cost: 1 white, 1 any color
+Power: 90+, +50 vs red
+You may return 1 support card with #KOYO LABO from your archive to the bottom of your deck: This Arts gets +40.",,
+hBP06-022,"風真いろは
+(Kazama Iroha)",,Debut holomem,C,Green,140,#JP #holoX,"Arts: Handmade Charm
+Cost: 1 any color
+Power: 10",,
+hBP06-023,"風真いろは
+(Kazama Iroha)",,Debut holomem,U,Green,110,#JP #holoX,"Collab Effect: Hop Step Jump!
+If you went second and it is your first turn, reveal 1 Buzz <Kazama Iroha> from your deck, and add it to hand. Then, shuffle the deck.
+
+Arts: GOZAGOZA536
+Cost: 1 any color
+Power: 30",,
+hBP06-024,"風真いろは
+(Kazama Iroha)",,1st holomem,C,Green,200,#JP #holoX,"Arts: Magical☆Gozaru's Uplifting Spell
+Cost:  1 green, 2 any color
+Power: 80",,
+hBP06-025,"風真いろは
+(Kazama Iroha)",,1st holomem,U,Green,150,#JP #holoX,"Gift: A Chill Anniversary
+[Center Position・Collab Position Only]Your holomem with #holoX other than this holomem get Arts+20.
+
+Arts: Tsuntsuntsun...
+Cost: 2 any color
+Power: 50",,
+hBP06-026,"風真いろは
+(Kazama Iroha)",,1st Buzz holomem,R,Green,250,#JP #holoX,"Gift: Delivering you energy!
+[Center Position Only]When your holomem collabs, if your hand has 5 or more cards, you may send the top card of your cheer deck to your collab holomem.
+
+Arts: I hope you enjoy
+Cost: 2 green
+Power: 60
+
+Extra: If this holomem is downed, you get life-2",,
+hBP06-027,"風真いろは
+(Kazama Iroha)",,2nd holomem,RR,Green,210,#JP #holoX,"Gift: Thoughts I want to convey
+When this holomem downed your opponent's center holomem, you may bloom 1 of your <Kazama Iroha> that bloomed this turn once more using a holomem from your hand.
+
+Arts: Step Together
+Cost: 1 green, 2 any color
+Power: 160+, +50 vs white
+If your Oshi holomem is <Kazama Iroha>, and you have a collab holomem, this Arts gets +40. Then, if this holomem has bloomed from a Buzz holomem, damage from this Arts cannot be reduced.",,UR
+hBP06-028,"姫森ルーナ
+(Himemori Luna)",,Debut holomem,C,Green,130,#JP #Gen 4 #Baby,"Arts: Nnaaaaaai
+Cost: 1 any color
+Power: 30",,
+hBP06-029,"姫森ルーナ
+(Himemori Luna)",,1st holomem,U,Green,170,#JP #Gen 4 #Baby,"Arts: Celebration
+Cost: 1 any color
+Power: 30
+If you have a holomem with a fan attached, you may send the top card of your cheer deck to this holomem.
+
+Arts: Royal Flower Bouquet
+Cost: 3 any color
+Power: 80",,
+hBP06-030,"姫森ルーナ
+(Himemori Luna)",,1st holomem,R,Green,180,#JP #Gen 4 #Baby,"Gift: Feelings of gratitude toward everyone
+[Collab Position Only]During your opponent's turn, when you would archive <Lu-knights> attached to your center holomem, you may reattach it to your back holomem <Himemori Luna> instead.
+
+Arts: I want to share them!
+Cost: 1 any color
+Power: 20
+You may attach 1 <Lu-knights> from your archive to your <Himemori Luna>.",,
+hBP06-031,"姫森ルーナ
+(Himemori Luna)",,2nd holomem,RR,Green,190,#JP #Gen 4 #Baby,"Bloom Effect: Nna-hup!
+If your Oshi holomem is <Himemori Luna>, you may archive 1~2 <Lu-knights> from your stage: Send the top card of your cheer deck to 1 of your <Himemori Luna> for each card archived.
+
+Arts: Always Together
+Cost: 4 any color
+Power: 160+, +50 vs blue
+If 2 or more <Lu-knights> are attached to this holomem, this Arts gets +50.",,UR
+hBP06-032,"セシリア・イマーグリーン
+(Cecilia Immergreen)",,1st holomem,R,Green,130,#EN #Justice #Language,"Collab Effect: FOR! JUSTICE!
+Send the top card of your cheer deck to your holomem with #Justice other than this holomem.
+
+Arts: Best Spring Memory
+Cost: 1 any color
+Power: 20",,
+hBP06-033,"儒烏風亭らでん
+(Juufuutei Raden)",,1st holomem,R,Green,160,#DEV_IS #ReGLOSS #Alcohol,"Bloom Effect: Tarnished Black Feathers
+If you used an event with #Mushroom this turn, draw 2 cards. You may only use Bloom Effect ""Tarnished Black Feathers"" once per turn.
+
+Arts: Kusabira
+Cost: 1 green
+Power: 40
+You may send 1 cheer from your archive to your holomem with #ReGLOSS.",,
+hBP06-034,"百鬼あやめ
+(Nakiri Ayame)",,Debut holomem,C,Red,130,#JP #Gen 2 #Shooter,"Arts: Exciting Date at the Summer Beach
+Cost: 1 any color
+Power: 10+
+You may archive 1 card from your hand: During this turn, your center holomem <Nakiri Ayame> gets Arts+30.",,
+hBP06-035,"百鬼あやめ
+(Nakiri Ayame)",,Debut holomem,U,Red,120,#JP #Gen 2 #Shooter,"Collab Effect: Kawayo
+If you went second and it is your first turn, reveal 1 [tool, mascot or fan] from your deck, and attach it to your <Nakiri Ayame>. Then, shuffle the deck.
+
+Arts: ...Back to Bed (:3_ヽ)_
+Cost: 1 any color
+Power: 20",,
+hBP06-036,"百鬼あやめ
+(Nakiri Ayame)",,1st holomem,C,Red,140,#JP #Gen 2 #Shooter,"Collab Effect: Laid-Back Night Cherry Blossom Hot Spring Date
+Reveal 1 [<Asura & Rakshasa>, <Demon Blade Asura> or <Poyoyo>] from your deck, and add it to hand. Then, shuffle the deck.
+
+Arts: Happy time after taking a bath
+Cost: 1 any color
+Power: 30
+You may archive the top card of your cheer deck:Draw 1 card.",,
+hBP06-037,"百鬼あやめ
+(Nakiri Ayame)",,1st holomem,U,Red,140,#JP #Gen 2 #Shooter,"Bloom Effect: Date to the Shrine
+You may return 2 red cheers from your archive to the bottom of the cheer deck in any order.
+
+Arts: Hope You'll Be Full of Energy Forever...
+Cost: 2 red
+Power: 50
+You may archive the top card of your cheer deck: Deal 30 damage to your opponent's center holomem or collab holomem.",,
+hBP06-038,"百鬼あやめ
+(Nakiri Ayame)",,1st holomem,R,Red,140,#JP #Gen 2 #Shooter,"Collab Effect: I Sometimes Multiply
+You may archive the top card of your cheer deck:Return 1 <Nakiri Ayame> from your archive to hand.
+
+Arts: Sally we forth!
+Cost: 1 red
+Power: 30
+You may archive the top card of your cheer deck:Deal 20 special damage to your opponent's center holomem or collab holomem.",,
+hBP06-039,"百鬼あやめ
+(Nakiri Ayame)",,2nd holomem,RR,Red,160,#JP #Gen 2 #Shooter,"Gift: I didn't hear anything
+[Center Position Only]If you have a collab holomem and your opponent does not have a collab holomem, all of your holomem do not take Arts damage from your opponent.
+
+Arts: Hundred Oni Dance -Hazy Moon-
+Cost: 2 red
+Power: 80+, +50 vs green
+If your Oshi holomem is <Nakiri Ayame>, you may archive 1~3 cards from the top of your cheer deck:This arts gets +40 for each card archived. This Arts may not be used from the collab position unless your life is 2 or less.",,UR
+hBP06-040,"ハコス・ベールズ
+(Hakos Baelz)",,Debut holomem,C,Red,110,#EN #Promise #Kemomimi,"Arts: You Can Do It!
+Cost: 1 any color
+Power: 30
+Roll a die once. If it is odd, deal 10 special damage to your opponent's center holomem and collab holomem.",,
+hBP06-041,"ハコス・ベールズ
+(Hakos Baelz)",,Debut holomem,U,Red,110,#EN #Promise #Kemomimi,"Collab Effect: GYM RAT
+If you went second and it is your first turn, draw 3 cards, and archive 2 cards from hand.
+
+Arts: Brat Wellness
+Cost: 1 any color
+Power: 30",,
+hBP06-042,"ハコス・ベールズ
+(Hakos Baelz)",,1st holomem,C,Red,160,#EN #Promise #Kemomimi,"Bloom Effect: Strawberry Princess
+Archive 1 card from your hand. Draw 1 card.
+
+Arts: Birthday Full of Strawberries
+Cost: 1 red
+Power: 40+
+You may archive 2 cards from your hand: This Arts gets +20.",,
+hBP06-043,"ハコス・ベールズ
+(Hakos Baelz)",,1st holomem,U,Red,160,#EN #Promise #Kemomimi,"Collab Effect: Once a Peasant,
+You may archive 1 holomem with #Promise from your hand: Deal 30 special damage to your opponent's center holomem or collab holomem.
+
+Arts: ALWAYS A PEASANT.
+Cost: 1 red
+Power: 30",,
+hBP06-044,"ハコス・ベールズ
+(Hakos Baelz)",,1st holomem,R,Red,160,#EN #Promise #Kemomimi,"Arts: Wheel of Fortune
+Cost: 1 red
+Power: 30+
+If you have used your SP Oshi Skill ""🎲ƎNOZ N∩Ⅎ ƎH⊥ O⊥ ƎWOϽ˥ƎM🎲"" this game, roll a die once. This Arts gets +10x the number rolled.
+
+Arts: Ariga-chu!
+Cost: 2 red
+Power: 70",,
+hBP06-045,"ハコス・ベールズ
+(Hakos Baelz)",,2nd holomem,RR,Red,200,#EN #Promise #Kemomimi,"Arts: Chaos Reloaded
+Cost: 2 any color
+Power: 70+, +50 vs purple
+Return 1~5 holomem from your archive to the bottom of your deck in any order. This Arts gets +10 for each holomem returned.
+
+Arts: 💥¡¡SSꓵHƆSꓶƎԀԀOꓷ💥
+Cost: 1 red, 2 any color
+Power: 100, +50 vs purple
+If you have used your SP Oshi Skill ""🎲ƎNOZ N∩Ⅎ ƎH⊥ O⊥ ƎWOϽ˥ƎM🎲"" this game, deal 100 special damage to your opponent's center holomem or collab holomem.",,UR
+hBP06-046,"鷹嶺ルイ
+(Takane Lui)",,2nd holomem,R,Red,200,#JP #holoX #Bird #Alcohol,"Gift: You're Mistaken!
+During this game, if you used your SP Oshi skill ""Hawkeye"", this holomem gets Arts+20.
+
+Arts: Everlasting Bonds
+Cost: 1 red, 2 any color
+Power: 120, +50 vs purple
+If your Oshi holomem is <Takane Lui>, you may archive 2 cards from your hand: Deal 50 special damage to your opponent's center holomem or collab holomem.",,
+hBP06-047,"一条莉々華
+(Ichijou Ririka)",,2nd holomem,R,Red,190,#DEV_IS #ReGLOSS #Cooking #Language,"Collab Effect: Struggle Meals at Home
+If your Oshi holomem is <Ichijou Ririka>, and your archive has 2 or more <Struggle Meal>, draw 2 cards.
+
+Arts: There's Really Nothing. Help.
+Cost: 1 red
+Power: 70, +50 vs purple
+[Collab Position Only] Deal 50 special damage to your opponent's collab holomem. If your opponent has no collab holomem, deal 50 special damage to your opponent's center holomem instead.",,
+hBP06-048,"ムーナ・ホシノヴァ
+(Moona Hoshinova)",,Debut holomem,C,Blue,100,#ID #ID Gen 1 #Singing,"Arts: MoonPhase
+Cost: 1 any color
+Power: 20
+If cheers other than blue cheer are attached to this holomem, deal 10 special damage to 1 of your opponent's back holomem. However, your opponent's life does not reduce even if downed.",,
+hBP06-049,"ムーナ・ホシノヴァ
+(Moona Hoshinova)",,Debut holomem,U,Blue,110,#ID #ID Gen 1 #Singing,"Collab Effect: Blue Amber
+If you went second and it is your first turn, reveal 1 blue cheer from your cheer deck and send it to your <Moona Hoshinova>. Then, shuffle the cheer deck.
+
+Arts: Dance of Stars
+Cost: 1 any color
+Power: 20",,
+hBP06-050,"ムーナ・ホシノヴァ
+(Moona Hoshinova)",,1st holomem,C,Blue,150,#ID #ID Gen 1 #Singing,"Arts: 2 Sides of The Moon
+Cost: 1 any color
+Power: 20
+Deal 10 special damage to 1 of your opponent's back holomem.
+
+Arts: Lunar Duality
+Cost: 3 any color
+Power: 80",,
+hBP06-051,"ムーナ・ホシノヴァ
+(Moona Hoshinova)",,1st holomem,U,Blue,170,#ID #ID Gen 1 #Singing,"Arts: Spring Party
+Cost: 1 any color
+Power: 30
+
+Arts: Affection
+Cost: 1 blue, 1 any color
+Power: 50
+If your Oshi holomem is <Moona Hoshinova>, you may archive 1 cheer from this holomem:Draw 1 card.",,
+hBP06-052,"ムーナ・ホシノヴァ
+(Moona Hoshinova)",,1st Buzz holomem,R,Blue,240,#ID #ID Gen 1 #Singing,"Gift: New Moon
+Usable when this holomem deals Arts damage to your opponent's holomem:Deal the same amount of special damage to that holomem as the amount of damage taken by that holomem.
+
+Arts: Waning Moon
+Cost: 1 blue, 1 any color
+Power: 20+
+If your Oshi holomem is <Moona Hoshinova> and 4 or more cheers are attached to this holomem, this Arts gets +60.
+
+Extra: If this holomem is downed, you get life-2",,
+hBP06-053,"ムーナ・ホシノヴァ
+(Moona Hoshinova)",,2nd holomem,RR,Blue,200,#ID #ID Gen 1 #Singing,"Collab Effect: Starry Fate
+Choose your opponent's center holomem or collab holomem. Deal special damage to that holomem equal to the amount of damage it has taken.
+
+Arts: Tidal Eclipse
+Cost: 1 blue, 1 any color
+Power: 90, +50 vs white
+If 4 or more cheers are attached to this holomem, deal 90 special damage to your opponent's center holomem or collab holomem.",,UR
+hBP06-054,"雪花ラミィ
+(Yukihana Lamy)",,2nd holomem,R,Blue,200,#JP #Gen 5 #Half-Elf #Alcohol,"Bloom Effect: Taking Action!!
+If <Yukimin> is attached to this holomem, deal 20 special damage to your opponent's center holomem. Then, draw 1 card. If 3 or more <Yukimin> are attached to this holomem, draw 2 cards instead.
+
+Arts: A wholesome birthday and the future beyond
+Cost: 2 blue, 1 any color
+Power: 140+, +50 vs white
+This Arts gets +10 for each <Yukimin> attached to this holomem.",,
+hBP06-055,"沙花叉クロヱ
+(Sakamata Chloe)",,2nd holomem,R,Blue,190,#JP #holoX #Sea,"Collab Effect: Woof, Wooof!!!
+If your Oshi holomem is <Murasaki Shion>, send 3 cheers from your opponent's archive to your opponent's center holomem. Then, you may send 1 cheer from your archive to your <Murasaki Shion>.
+
+Arts: Magic Created by the Pair
+Cost: 1 blue, 1 purple
+Power: 100+, +50 vs red
+Reveal the top 4 cards of your deck. This Arts gets +20 for each holomem revealed among them. Then, archive the revealed cards. If an event is among them, draw 2 cards.",,
+hBP06-056,"沙花叉クロヱ
+(Sakamata Chloe)",,2nd holomem,R,Blue,200,#JP #holoX #Sea,"Gift: Going to school with Gyarumata
+If you have used your SP Oshi Skill ""Life Reset Button"" this game, this holomem requires -1 colorless for its Arts ""Spend your youth with Sakamata?"".
+
+Arts: Spend your youth with Sakamata?
+Cost: 2 blue, 2 any color
+Power: 120+, +50 vs purple
+Reveal the top 6 cards of your deck. This Arts gets +20 for each holomem revealed. Then, archive the revealed cards.",,
+hBP06-057,"森カリオペ
+(Mori Calliope)",,Debut holomem,C,Blue,110,#EN #Myth #Singing,"Arts: Mori's Underground Live
+Cost: 1 any color
+Power: 20
+Draw 1 card, and archive 1 card from hand.",,
+hBP06-058,"森カリオペ
+(Mori Calliope)",,1st holomem,U,Blue,160,#EN #Myth #Singing,"Collab Effect: Yes, Chef.
+Draw 3 cards, and archive 2 cards from hand.
+
+Arts: A Chef's Journey's End.
+Cost: 1 any color
+Power: 30
+If a purple cheer is attached to this holomem, draw 1 card. Then, archive the top 2 cards of your deck.",,
+hBP06-059,"森カリオペ
+(Mori Calliope)",,1st holomem,R,Blue,160,#EN #Myth #Singing,"Bloom Effect: Sleepover Party!
+If your stage has 3 or more holomem with #EN, reveal 1 [blue cheer or purple cheer] from your cheer deck, and send it to your holomem. Then, shuffle the cheer deck.
+
+Arts: Sleepy time
+Cost: 3 any color
+Power: 80",,
+hBP06-060,"森カリオペ
+(Mori Calliope)",,2nd holomem,RR,Blue,210,#EN #Myth #Singing,"Arts: Bull's-Eye!!!!
+Cost: 1 any color
+Power: 60, +50 vs red
+If your Oshi holomem is <Mori Calliope>, you may archive the top 2 cards of your deck. If archived, send the top card of your cheer deck to your holomem.
+
+Arts: Memento Mori.
+Cost: 4 any color
+Power: 200+, +50 vs red
+During this turn, 1 holomem with #Myth on your stage gets Arts+20. Then, if your Oshi holomem is <Mori Calliope>, and your archive has 8 or more holomem, draw 1 card.",,UR
+hBP06-061,"ロボ子さん
+(Robocosan)",,Debut holomem,C,Purple,120,#JP #Gen 0 #Shooter,"Arts: Sweet times with me
+Cost: 1 any color
+Power: 20
+If <Roboser> is attached to this holomem, deal 20 special damage to your opponent's center holomem.",,
+hBP06-062,"ロボ子さん
+(Robocosan)",,Debut holomem,U,Purple,110,#JP #Gen 0 #Shooter,"Collab Effect: Come Play with Roboco
+If you went second and it is your first turn, reveal 2 <Roboser> from your deck, and add them to hand. Then, shuffle the deck.
+
+Arts: You're Not Alone
+Cost: 1 any color
+Power: 30",,
+hBP06-063,"ロボ子さん
+(Robocosan)",,1st holomem,C,Purple,150,#JP #Gen 0 #Shooter,"Bloom Effect: Pudding and a Kid's Omurice
+If you have a holomem with <Roboser> attached, deal 20 special damage to your opponent's center holomem.
+
+Arts: Mm---Delicious [๑´ڡ`๑]♡
+Cost: 1 any color
+Power: 30
+If your Oshi holomem is <Robocosan>, draw 1 card.",,
+hBP06-064,"ロボ子さん
+(Robocosan)",,1st holomem,U,Purple,160,#JP #Gen 0 #Shooter,"Collab Effect: I'm going to play a prank on you!
+If your Oshi holomem is <Robocosan>, you may archive 1~2 cards from your hand:For each card archived, return 1 <Roboser> from your archive to hand.
+
+Arts: Boo!! ...were you surprised?
+Cost: 1 purple
+Power: 40",,
+hBP06-065,"ロボ子さん
+(Robocosan)",,1st Buzz holomem,R,Purple,250,#JP #Gen 0 #Shooter,"Gift: A word of gratitude
+When this holomem uses Arts, if this holomem has bloomed from a 1st holomem, deal 50 special damage to your opponent's center holomem or collab holomem.
+
+Arts: Irreplaceable Days
+Cost: 1 purple, 2 any color
+Power: 90
+If your holomem was downed during your opponent's previous turn, this Arts requires -1 colorless.
+
+Extra: If this holomem is downed, you get life-2",,
+hBP06-066,"ロボ子さん
+(Robocosan)",,2nd holomem,RR,Purple,200,#JP #Gen 0 #Shooter,"Gift: dream_CONNECT.zero
+[Center Position Only]When your collab holomem with #Gen 0 uses Arts, reveal 1 card from your deck and archive it. Then, shuffle the deck.
+
+Arts: <Seal> Dark Bridal
+Cost: 2 purple, 1 any color
+Power: 160, +50 vs yellow
+If 3 or more <Roboser> are attached to this holomem, deal 70 special damage to your opponent's center holomem or collab holomem.",,UR
+hBP06-067,"戌神ころね
+(Inugami Korone)",,Debut holomem,C,Purple,100,#JP #GAMERS #Kemomimi,"Collab Effect: Mad Dog of hololive
+You may archive 1 holomem with #GAMERS from your hand: Draw 1 card.
+
+Arts: Hand Over a Finger!
+Cost: 1 any color
+Power: 20",,
+hBP06-068,"戌神ころね
+(Inugami Korone)",,1st holomem,U,Purple,140,#JP #GAMERS #Kemomimi,"Bloom Effect: Leave it to me
+Reveal 1 <Fingers> from your deck, and add it to hand. Then, shuffle the deck. You may only use Bloom Effect ""Leave it to me"" once per turn.
+
+Arts: Thank you for the congratulations!
+Cost: 2 any color
+Power: 50
+If you have a holomem with a support card attached, draw 1 card, and archive 1 card from your hand.",,
+hBP06-069,"戌神ころね
+(Inugami Korone)",,1st holomem,R,Purple,160,#JP #GAMERS #Kemomimi,"Collab Effect: Just keep your eyes on me, okay? ♡
+If you have a holomem with <Fingers> attached, draw 1 card.
+
+Arts: Shibakiage Punching
+Cost: 1 any color
+Power: 30+
+If this holomem was set to active this turn by your Oshi Skill ""Infinite Stamina"", this Arts gets +50.",,
+hBP06-070,"戌神ころね
+(Inugami Korone)",,2nd holomem,RR,Purple,210,#JP #GAMERS #Kemomimi,"Gift: Wonder Viking
+[Center Position Only] [1/Turn] You may return 1 <Fingers> from your stage to the bottom of your deck: During this turn, this holomem's Arts requires -2 colorless.
+
+Arts: Ragnarok WowWowAxe
+Cost: 4 any color
+Power: 170+, +50 vs green
+If your Oshi Skill ""Infinite Stamina"" was used this turn, this Arts gets +40.",,UR
+hBP06-071,"ラプラス・ダークネス
+(La+ Darknesss)",,2nd holomem,R,Purple,200,#JP #holoX #Shooter,"Arts: Together with La+
+Cost: 2 purple
+Power: 80+, +50 vs yellow
+Roll a die 3 times. This Arts gets +20 for each odd result rolled.
+
+Arts: See Me, Hear Me, Everyone!
+Cost: 5 purple
+Power: 150, +50 vs yellow
+Roll a die 5 times. For each odd result rolled, draw 1 card and deal 30 special damage to your opponent's center holomem and collab holomem.",,
+hBP06-072,"夏色まつり
+(Natsuiro Matsuri)",,Debut holomem,C,Yellow,100,#JP #Gen 1 #Shooter,"Gift: Did You Think That You'd Win?
+This holomem takes -30 Arts damage from your opponent's 1st holomem.
+
+Arts: Too Bad
+Cost: 1 any color
+Power: 20",,
+hBP06-073,"夏色まつり
+(Natsuiro Matsuri)",,Debut holomem,U,Yellow,110,#JP #Gen 1 #Shooter,"Collab effect: Will you stay with me...?
+If you went second, it is your first turn, and your Oshi holomem is <Natsuiro Matsuri>, reveal 1 Limited support card from your deck and add it to hand. Then, shuffle the deck.
+
+Arts: Thank you
+Cost: 1 any color
+Power: 10",,
+hBP06-074,"夏色まつり
+(Natsuiro Matsuri)",,1st holomem,C,Yellow,140,#JP #Gen 1 #Shooter,"Collab Effect: Among Angels
+During this turn, your center holomem gets Arts+10 for each support card you used this turn. However, only up to 3 support cards are counted.
+
+Arts: CURE PALE
+Cost: 1 yellow
+Power: 30",,
+hBP06-075,"夏色まつり
+(Natsuiro Matsuri)",,1st holomem,U,Yellow,160,#JP #Gen 1 #Shooter,"Arts: Tonight, dance the night!
+Cost: 1 yellow, 1 any color
+Power: 50
+
+Arts: I'll do my best at dance lessons!
+Cost: 2 yellow, 1 any color
+Power: 80+
+Roll a die once for each [mascot and fan] on your stage. This Arts gets +10 for each result that is 4 or greater rolled. However, the die can be rolled only up to 4 times.",,
+hBP06-076,"夏色まつり
+(Natsuiro Matsuri)",,1st Buzz holomem,R,Yellow,250,#JP #Gen 1 #Shooter,"Bloom Effect: Let's go performing!
+Reveal 1 [<Ebifrion> or <Matsurisu>] from your deck, and add it to hand. Then, shuffle the deck.
+
+Arts: Fall in love with Matsuri-chan ♥
+Cost: 1 yellow, 1 any color
+Power: 50+
+If the target of this Arts is your opponent's 2nd holomem, and you have used a Limited event this turn, this Arts gets +70.
+
+Extra: If this holomem is downed, you get life-2",,
+hBP06-077,"夏色まつり
+(Natsuiro Matsuri)",,2nd holomem,RR,Yellow,200,#JP #Gen 1 #Shooter,"Bloom Effect: Re:START
+If your life is less than or equal to your opponent's, you may send the top card of your cheer deck to your <Natsuiro Matsuri>.
+
+Arts: Never give up!! Natsuiro Soul
+Cost: 2 yellow, 1 any color
+Power: 140+, +50 vs blue
+The Arts gets +30 for each Limited support card you used this turn.",,UR
+hBP06-078,"大空スバル
+(Oozora Subaru)",,Debut holomem,C,Yellow,100,#JP #Gen 2 #Bird,"Collab Effect: Earth & Terra
+You may archive 1 cheer from this holomem:Reveal 1 Debut holomem with the same card name as your Oshi holomem from your deck, and add it to hand. Then, shuffle the deck.
+
+Arts: For now, I'll do my best with POWER!!!!
+Cost: 1 any color
+Power: 20",,
+hBP06-079,"大空スバル
+(Oozora Subaru)",,1st holomem,U,Yellow,140,#JP #Gen 2 #Bird,"Collab Effect: Subaru Duck Dance
+You may send 1 cheer from your archive to this holomem.
+
+Arts: Sound of ripples
+Cost: 1 any color
+Power: 30",,
+hBP06-080,"大空スバル
+(Oozora Subaru)",,1st holomem,R,Yellow,130,#JP #Gen 2 #Bird,"Bloom Effect: Let's Hold Hands
+Reveal 1 [<Subaru Duck> or <Subatomo>] from your deck, and add it to hand. Then, shuffle the deck.
+
+Arts: We Can Go Anywhere
+Cost: 2 yellow
+Power: 60+
+This Arts gets +20 for each <Subatomo> attached to this holomem.",,
+hBP06-081,"大空スバル
+(Oozora Subaru)",,2nd holomem,RR,Yellow,200,#JP #Gen 2 #Bird,"Bloom Effect: Mobilize! Bustling Oozora Police!!
+If your Oshi holomem is <Oozora Subaru>, you may archive 1 cheer from your stage: Reveal 1 <Oozora Subaru> from your deck, and add it to hand. Then, shuffle the deck.
+
+Arts: GUILTY or INNOCENT
+Cost: 1 yellow, 1 any color
+Power: 100, +50 vs red
+If your life is 3 or less, you may send the top card of your cheer deck to 1 of your yellow holomem for each cheer attached to this holomem.",,UR
+hBP06-082,"アーニャ・メルフィッサ
+(Anya Melfissa)",,2nd holomem,R,Yellow,200,#ID #ID Gen 2 #Language,"Gift: Sleepless City Nights
+[Collab Position Only] If your Oshi holomem is <Anya Melfissa>, your [center holomem and collab holomem] with <Ancient Weapon> attached take -30 Arts damage.
+
+Arts: A Peculiar Visitor
+Cost: 1 yellow
+Power: 70, +50 vs blue
+If you used your Oshi Skill ""Mystical Ritual"" this turn, you may return 1~3 <Anya Melfissa> from your archive to hand.",,
+hBP06-083,"ラムダック
+(LAMBDUCK)",,1st holomem,R,Yellow,170,#JP #Gen 2 #Gen 4 #Bird #Kemomimi #Singing,"Collab Effect: The End of the Beginning
+Reveal 1 <Oozora Subaru> from your hand, and you may return it to the bottom of your deck: Return 1 [<Tsunomaki Watame> or <Oozora Subaru>] from your archive to hand.
+
+Arts: I Am Subaru & Watame! Yeah!!
+Cost: 3 yellow
+Power: 80
+[Collab Position Only] If your Oshi holomem is <Tsunomaki Watame> or <Oozora Subaru>, this Arts requires -1 yellow. If your center holomem is 2nd holomem <Tsunomaki Watame>, this Arts requires -3 yellow instead.
+
+Extra: This holomem is also regarded as <Tsunomaki Watame> <Oozora Subaru>",,
+hBP06-084,"AIこより
+(AI Koyori)",,Spot holomem,U,None,150,#JP #holoX #Kemomimi,"Gift: ""Konkoyo"", Is This Outdated?
+When this holomem uses baton pass and moves to the back position, during this turn, 1 <Hakui Koyori> on your stage gets Arts+20.
+
+Arts: ""Happy Leaf!""
+Cost: 1 any color
+Power: 30
+
+Extra: This holomem cannot Bloom",,
+hBP06-085,"フェイバリットパソコン
+(Favorite PC)",,Support (Item),U,,,,"LIMITED: Only one can be used per turn.
+
+Reveal 1 [Debut holomem and/or Buzz holomem] each with the same card name, and/or 1 support card with #Buzz Merch from your deck, and add the revealed cards to hand. Then, shuffle the deck.",,
+hBP06-086,"愛情いっぱい召し上がれ♪
+(For You with Lots of Love♪)",,Support (Event),C,,,,"LIMITED: Only one can be used per turn.
+
+Draw 1 card. Then, restore 100 HP to 1 of your holomem.",,
+hBP06-087,"しめじダンス
+(Shimeji Dance)",,Support (Event),U,,,#Mushroom,"This card can only be used if your Oshi holomem is <Juufuutei Raden>.
+
+Archive the top card of your cheer deck. Then, return 1 <Juufuutei Raden> from your archive to hand.",,
+hBP06-088,"ドッキリうさぎ
+(Prankster Rabbit)",,Support (Event),C,,,,"LIMITED: Only one can be used per turn.
+
+This card can only be used if your holomem was downed during your opponent's previous turn, and your life is less than your opponent's life.
+
+Choose your opponent's center holomem or collab holomem. Rest the chosen holomem and move it to the back position. The chosen holomem does not become active during your opponent's next reset phase.",,
+hBP06-089,"ドローイングストリーム
+(Drawing Stream)",,Support (Event),C,,,,"LIMITED: Only one can be used per turn.
+
+Reveal 1 cheer from your cheer deck, and send it to your holomem with #Painting. Then, shuffle the cheer deck. Return 1 holomem with #Painting from your archive to hand.
+
+[S alt art only available in EN]",,S
+hBP06-090,"ブルームステージ
+(Bloom Stage)",,Support (Event),U,,,,"LIMITED: Only one can be used per turn.
+
+Draw 2 cards. Then, if your life is 4 or less, you may bloom 1 of your 1st holomem that bloomed from Debut holomem this turn once more using a holomem from your hand.",,
+hBP06-091,"ホロライブ1期生
+(hololive Gen 1)",,Support (Event),U,,,,"LIMITED: Only one can be used per turn.
+
+This card can only be used if you have 6 or less cards in hand excluding this card.
+
+Look at the top 4 cards of your deck. Reveal any number of holomem with #Gen 1 from among them, and add the revealed holomem to hand. Then, return the remaining cards to the bottom of the deck in any order.",,
+hBP06-092,"マヨネーズちゅっちゅっ
+(Sipping Mayonnaise)",,Support (Event),C,,,,"During this turn, 1 <Hakui Koyori> on your stage gets Arts+30.",,
+hBP06-093,"山田ルイ54世
+(Yamada Lui the 54th)",,Support (Event),U,,,,"LIMITED: Only one can be used per turn.
+
+This card can only be used if all holomem on your stage are holomem with #holoX.
+
+Reveal 2 holomem with #holoX from your deck, and add them to hand. Then, shuffle the deck. If the number of cheers on your stage is less than your opponent's, you may send the top card of your cheer deck to your holomem.",,
+hBP06-094,"ワークアウト
+(Workout)",,Support (Event),C,,,,"LIMITED: Only one can be used per turn.
+
+This card can only be used if you have a collab holomem, and/or your opponent has no collab holomem.
+
+During this turn, 1 holomem on your stage gets Arts+20. If that holomem is a Buzz holomem or 2nd holomem, that holomem gets Arts+50 instead.",,
+hBP06-095,IDENTIFY -AREA 15-,,Support (Event),U,,,,"LIMITED: Only one can be used per turn.
+
+This card can only be used if all holomem on your stage are holomem with #ID Gen 1.
+
+Reveal 2 holomem with #ID Gen 1 from your deck, and add them to hand. Then, shuffle the deck. If your cheer deck has no cards, during this turn, if your holomem with #ID Gen 1 downed your opponent's center holomem, your opponent gets life-1.",,
+hBP06-096,"2人あわせてラムダック！
+(2 of Us Form LAMBDUCK!)",,Support (Event),U,,,,"LIMITED: Only one can be used per turn.
+
+Choose 1 each of your [<Tsunomaki Watame> and <Oozora Subaru>]. Send 1 cheer from your archive to each chosen holomem. During this turn, the chosen holomem get Arts+20.",,
+hBP06-097,"カワイイスタジャン
+(Cute Stadium Jacket)",,Support (Tool),C,,,#Buzz Merch,"◆Additional ability if attached to Buzz holomem
+■The holomem this tool is attached to gets +30 HP.
+■During your opponent's main phase, the HP of the holomem this tool is attached to cannot be reduced or changed by your opponent's abilities.
+
+Only 1 tool can be attached to each of your holomem.",,
+hBP06-098,"鬼神刀「阿修羅」
+(Demon Blade Asura)",,Support (Tool),U,,,,"The holomem this tool is attached to gets Arts+10.
+
+◆Additional ability if attached to <Nakiri Ayame>
+When the holomem this tool is attached to collabs, if your life is 1 and your opponent has no collab holomem, your opponent moves 1 of their back holomem to the collab position (Moving is not regarded as collab).
+
+Only 1 tool can be attached to each of your holomem.",,
+hBP06-099,"ゆび
+(Fingers)",,Support (Tool),U,,,,"The holomem this tool is attached to gets Arts+10.
+
+When this tool is attached from hand to <Inugami Korone>, you may return 1 <Inugami Korone> from your archive to hand.
+
+Only 1 tool can be attached to each of your holomem.",,
+hBP06-100,Chattino,,Support (Mascot),C,,,,"The holomem this mascot is attached to gets +10 HP.
+
+◆Additional ability if attached to 1st or greater <Raora Panthera>
+If your Oshi holomem is <Raora Panthera>, the holomem this mascot is attached to gets +20 HP.
+
+Only 1 mascot can be attached to each of your holomem.",,
+hBP06-101,"ムーナびと
+(Moonabito)",,Support (Mascot),C,,,,"The holomem this mascot is attached to gets +20 HP.
+
+◆Additional ability if attached to <Moona Hoshinova>
+[1/Turn]When the holomem this mascot is attached to deals special damage to your opponent's holomem, you may send 1 blue cheer from your archive to your back holomem.
+
+Only 1 mascot can be attached to each of your holomem.",,
+hBP06-102,"えびふらいおん
+(Ebifrion)",,Support (Mascot),C,,,,"The holomem this mascot is attached to gets +20 HP.
+
+◆Additional ability if attached to <Natsuiro Matsuri>
+During your opponent's turn, if the holomem this mascot is attached to is downed, you may reattach 1 yellow cheer from this holomem to your other <Natsuiro Matsuri>.
+
+Only 1 mascot can be attached to each of your holomem.",,
+hBP06-103,"まつりす
+(Matsurisu)",,Support (Fan),C,,,,"If your [Oshi holomem or holomem with #Gen 1] rolled a die by an ability, you may archive this fan:Regard the result of 1 dice roll as 4.
+
+You may only attach this fan to your <Natsuiro Matsuri>, and you may attach any number of this fan per holomem.",,
+hBP06-104,"スバ友
+(Subatomo)",,Support (Fan),C,,,,"During your opponent's turn, if the holomem this fan is attached to is downed, send the top card of your cheer deck to your <Oozora Subaru>.
+
+You may only attach this fan to your <Oozora Subaru>, and you may attach any number of this fan per holomem.",,
+hBP03-009,"姫森ルーナ
+(Himemori Luna)",,Debut holomem,C,White,90,#JP #Gen 4 #Baby,"Arts: Are you there, Everyone?
+Cost: 1 any color
+Power: 10
+If you do not have a holomem with <Lu-knights> attached, reveal 1 <Lu-knights> from your deck, and attach it to your holomem. Then, shuffle the deck.
+
+Extra: You may include any number of this holomem in the deck",,
+hBP04-016,"ラオーラ・パンテーラ
+(Raora Panthera)",,Debut holomem,C,White,100,#EN #Justice #Kemomimi #Painting,"Arts: Ciaora
+Cost: 1 any color
+Power: 10
+If your stage has 5 or less holomem, reveal 1 Spot holomem with #Justice from your deck, and you may place it on stage. Then, shuffle the deck.
+
+Extra: You may include any number of this holomem in the deck",,
+hBP01-048,"風真いろは
+(Kazama Iroha)",,Debut holomem,C,Green,120,#JP #holoX,"Arts: Hear ye, it is I, Kazama Iroha!
+Cost: 1 any color
+Power: 20
+
+Extra: You may include any number of this holomem in the deck",,HR
+hSD02-002,"百鬼あやめ
+(Nakiri Ayame)",,Debut holomem,C,Red,90,#JP #Gen 2 #Shooter,"Arts: Kon-Nakiri~
+Cost: 1 red
+Power: 30
+
+Extra: You may include any number of this holomem in the deck",,HR
+hBP01-072,"ハコス・ベールズ
+(Hakos Baelz)",,Debut holomem,C,Red,80,#EN #Promise #Kemomimi,"Arts: WAZZUP!!
+Cost: 1 any color
+Power: 20
+If a red cheer is attached to this holomem, you may roll a die once:If it is odd, deal 20 Special Damage to your opponent's collab holomem.
+
+Extra: You may include any number of this holomem in the deck",,
+hBP04-043,"雪花ラミィ
+(Yukihana Lamy)",,Debut holomem,C,Blue,90,#JP #Gen 5 #Half-Elf #Alcohol,"Arts: Lamyoohoo
+Cost: 1 any color
+Power: 20
+Deal 10 special damage to 1 of your opponent's holomem. However, your opponent's life does not reduce even if downed.
+
+Extra: You may include any number of this holomem in the deck",,HR
+hBP01-088,"ムーナ・ホシノヴァ
+(Moona Hoshinova)",,Debut holomem,C,Blue,90,#ID #ID Gen 1 #Singing,"Arts: Moon Moon, It's Moona!
+Cost: 1 blue
+Power: 10
+You may roll a die once:If it is even, deal 20 Special Damage to 1 of your opponent's back holomem. However, your opponent's Life does not reduce even if downed.
+
+Extra: You may include any number of this holomem in the deck",,
+hBP03-057,"ロボ子さん
+(Robocosan)",,Debut holomem,C,Purple,100,#JP #Gen 0 #Shooter,"Arts: Hellobo!
+Cost: 1 any color
+Power: 30
+
+Extra: You may include any number of this holomem in the deck",,
+hBP02-054,"森カリオペ
+(Mori Calliope)",,Debut holomem,C,Purple,90,#EN #Myth #Singing,"Arts: First Disciple of the Grim Reaper
+Cost: 1 any color
+Power: 30+
+If your archive has holomem, this Arts gets +10.
+
+Extra: You may include any number of this holomem in the deck",,HR
+hBP04-079,"夏色まつり
+(Natsuiro Matsuri)",,Debut holomem,C,Yellow,120,#JP #Gen 1 #Shooter,"Gift: Wasshoi!
+During your opponent's turn, when this holomem is downed, you may reattach 1 of this holomem's cheers to your other holomem.
+
+Arts: hololive's Symbol of Purity
+Cost: 1 any color
+Power: 10
+
+Extra: You may include any number of this holomem in the deck",,
+hBP04-067,"大空スバル
+(Oozora Subaru)",,Debut holomem,C,Yellow,130,#JP #Gen 2 #Bird,"Arts: Ajimaru! Ajimaru!
+Cost: 1 yellow
+Power: 20
+
+Arts: Sup! I'm Oozora Subaru from hololive 2nd Generation!!
+Cost: 1 yellow, 2 any color
+Power: 60
+
+Extra: You may include any number of this holomem in the deck",,HR
+hBP03-061,"戌神ころね
+(Inugami Korone)",,Debut holomem,C,Yellow,120,#JP #GAMERS #Kemomimi,"Arts: Ello!
+Cost: 1 any color
+Power: 20
+
+Arts: Fingers! Give me your Fingers!
+Cost: 3 any color
+Power: 60
+
+Extra: You may include any number of this holomem in the deck",,
+hSD02-014,"ぽよ余
+(Poyoyo)",,Support (Mascot),C,,,#Shirakami's Character,"The holomem this mascot is attached to gets +20 HP.
+
+◆Additional ability if attached to <Nakiri Ayame>
+When the holomem this mascot is attached to blooms, draw 1 card.
+
+Only 1 mascot can be attached to each of your holomem.",,
+hBP03-105,"ルーナイト
+(Lu-knights)",,Support (Fan),U,,,,"During your opponent's turn, when the holomem this fan is attached to would take damage, you may archive this fan:The holomem this fan is attached to takes -30 damage.
+
+You may only attach this fan to your <Himemori Luna>, and you may attach any number of this fan per holomem.",,
+hBP03-110,"ろぼさー
+(Roboser)",,Support (Fan),U,,,,"■If the holomem this fan is attached to would use Arts, this fan is also regarded as a purple cheer.
+■The holomem this fan is attached to gets Arts -10.
+
+You may only attach this fan to your <Robocosan>, and you may attach any number of this fan per holomem.",,
+hBP01-041,"兎田ぺこら
+(Usada Pekora)",,1st holomem,SR,Green,90,#JP #Gen 3 #Kemomimi,"Bloom Effect: Usada Pekora has Improved
+Send the top card of your cheer deck to your center holomem or collab holomem.
+
+Arts: Don't you dare miss it, Peko!
+Cost: 1 any color
+Power: 30
+
+[special SR only reprint of this card]",,
+hBP02-016,"白銀ノエル
+(Shirogane Noel)",,1st holomem,SR,White,130,#JP #Gen 3 #Alcohol,"Bloom Effect: Noe-chan's Heroic Figure......
+If bloomed from Debut, reveal 1 [Debut holomem, 1st holomem or Spot holomem] with #Gen 3 from your deck, and add it to hand. Then, shuffle the deck.
+
+Arts: Burn this Sight into Your Eyes♡
+Cost: 2 any color
+Power: 30
+
+[special SR only reprint of this card]",,
+hBP02-031,"宝鐘マリン
+(Houshou Marine)",,1st holomem,SR,Red,130,#JP #Gen 3 #Painting #Sea,"Bloom Effect: Your Voices Are My Support!
+Deal 20 special damage to your opponent's collab holomem.
+
+Arts: Let's Set Sail Together! (Wholesome)
+Cost: 1 any color
+Power: 30
+
+[special SR only reprint of this card]",,
+hSD07-007,"不知火フレア
+(Shiranui Flare)",,1st holomem,SR,Yellow,150,#JP #Gen 3 #Half-Elf,"Bloom Effect: I've Grown Once Again
+[Back Position Only]You may swap your collab holomem with 70 or less HP with this holomem.
+
+Arts: Keep your Eyes on Me!
+Cost: 1 yellow, 1 any color
+Power: 40
+
+[special SR only reprint of this card]",,
+hY01-010,"白エール
+(White Cheer)",,Cheer,SY,White,,,[the base version cheer is not available in BP06 packs],,
+hY02-008,"緑エール
+(Green Cheer)",,Cheer,SY,Green,,,[the base version cheer is not available in BP06 packs],,
+hY03-013,"赤エール
+(Red Cheer)",,Cheer,SY,Red,,,[the base version cheer is not available in BP06 packs],,
+hY04-010,"青エール
+(Blue Cheer)",,Cheer,SY,Blue,,,[the base version cheer is not available in BP06 packs],,
+hY05-008,"紫エール
+(Purple Cheer)",,Cheer,SY,Purple,,,[the base version cheer is not available in BP06 packs],,
+hY06-007,"黄エール
+(Yellow Cheer)",,Cheer,SY,Yellow,,,[the base version cheer is not available in BP06 packs],,

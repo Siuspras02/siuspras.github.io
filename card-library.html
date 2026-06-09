@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>hOCG DB — Simple Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+<style>
+  :root {
+    /* ── CARD EFFECT COLORS (DO NOT CHANGE) ── */
+    --holo-teal: #1D9E75; /* Gift */
+    --holo-rose: #FF2C2C; /* Collab */
+    --holo-romance: #FF2C72; /* Arts */
+    --holo-gold: #BA7517; /* Saved Stars */
+    --holo-blue: #378ADD; /* Bloom */
+    --holo-orange: #EF9F27; /* Auto / Cheer */
+    --danger: #FF5252;
+    
+    /* ── HOLOLIVE BRAND UI THEME ── */
+    --brand-main: #41C3E3; /* Hololive Cyan */
+    --brand-hover: #00A6D6; /* Hololive Deep Blue */
+    --brand-pink: #FF5E99; /* Hololive Pink Accent */
+    
+    /* ── DEEP NAVY LAYOUT ── */
+    --navy: #0B111A;
+    --navy-2: #15202B;
+    --navy-3: #1A2636;
+    --navy-4: #243447;
+    
+    --border-dim: rgba(65, 195, 227, 0.15);
+    --border-mid: rgba(65, 195, 227, 0.35);
+    
+    --text-bright: #F8FAFC;
+    --text-mid: #94A3B8;
+    --text-dim: #475569;
+    --radius: 12px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--navy); color: var(--text-bright); font-family: 'nunito', sans-serif; overflow: hidden; }
+
+  /* ── UNIFIED TOPBAR ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(11, 17, 26, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-dim);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 24px; flex: 1; }
+  .topbar-center { flex: 2; display: flex; justify-content: center; }
+  .topbar-right { flex: 1; } 
+  
+  .logo { font-size: 20px; font-weight: 800; letter-spacing: 0.1em; color: var(--text-bright); white-space: nowrap; }
+  .logo span { color: var(--brand-main); }
+  
+  .tabs { display: flex; gap: 6px; }
+  .tab {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 6px 14px; border-radius: 8px; border: 1px solid transparent;
+    text-decoration: none; color: var(--text-mid); transition: all 0.2s ease;
+  }
+  .tab-title { font-family: 'nunito', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.05em; }
+  .tab-desc { font-family: 'nunito', sans-serif; font-size: 11px; font-weight: 500; opacity: 0.7; }
+  
+  .tab:hover:not(.active) { background: rgba(255,255,255,0.05); color: var(--text-bright); }
+  .tab.active { background: rgba(65, 195, 227, 0.15); border-color: rgba(65, 195, 227, 0.3); color: var(--brand-main); }
+
+  .search-bar {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--navy-3); border: 0.5px solid var(--border-dim);
+    border-radius: 6px; padding: 0 16px; height: 42px; width: 100%; max-width: 500px;
+    transition: 0.2s;
+  }
+  .search-bar:focus-within { border-color: var(--brand-main); box-shadow: 0 0 0 2px rgba(65, 195, 227, 0.2); }
+  .search-bar i { font-size: 18px; color: var(--text-dim); }
+  .search-bar input {
+    background: transparent; border: none; outline: none;
+    font-family: 'nunito', sans-serif; font-size: 16px; color: var(--text-bright); width: 100%;
+  }
+  .search-bar input::placeholder { color: var(--text-dim); }
+
+  /* ── SIMPLE LIBRARY LAYOUT ── */
+  .body-wrapper { display: flex; justify-content: center; width: 100%; height: calc(100vh - 72px); overflow: hidden; padding: 1rem; }
+  .main-wrapper { display: grid; grid-template-columns: 320px 1fr 1fr; gap: 1.5rem; flex: 1; min-height: 0; max-width: 1600px; width: 100%; }
+
+  .panel { background-color: var(--navy-3); border: 1px solid var(--border-dim); border-radius: var(--radius); padding: 1.25rem; box-shadow: 0 8px 16px rgba(0,0,0,0.2); display: flex; flex-direction: column; height: 100%; min-height: 0; }
+  .preview-panel { background: transparent; border: none; box-shadow: none; padding: 0; display: flex; flex-direction: column; justify-content: flex-start; }
+  
+  #preview-container { width: 100%; aspect-ratio: 2.5 / 3.5; background: linear-gradient(145deg, var(--navy-2), var(--navy-3)); border-radius: 16px; border: 1px solid var(--border-dim); display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: inset 0 0 40px rgba(0,0,0,0.5), 0 12px 24px rgba(0,0,0,0.4); transition: all 0.3s ease; }
+  #large-card-preview { width: 100%; height: 100%; object-fit: cover; display: none; }
+
+  .deck-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-shrink: 0; }
+  h3 { color: var(--brand-main); font-size: 1.4rem; margin: 0; font-weight: 800; }
+  .card-count { background: rgba(65, 195, 227, 0.15); border: 1px solid rgba(65, 195, 227, 0.3); color: var(--brand-main); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem; font-weight: 800; }
+
+  .card-list { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; overflow-y: auto; padding-right: 0.5rem; min-height: 0; }
+  .card-list::-webkit-scrollbar { width: 6px; }
+  .card-list::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 8px; }
+  .card-list::-webkit-scrollbar-thumb:hover { background: var(--brand-main); }
+  .card-list::-webkit-scrollbar-track { background: transparent; }
+
+  .deck-history-item { border: 1px solid var(--border-dim); border-left: 5px solid var(--border-dim); border-radius: 8px; overflow: hidden; background-color: var(--navy-2); flex-shrink: 0; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+  .deck-history-item:hover { border-color: var(--border-mid); transform: translateX(2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+  .deck-accordion-btn { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0.8rem; cursor: pointer; transition: 0.2s; user-select: none; }
+  .deck-accordion-btn:hover { background-color: rgba(255,255,255,0.02); }
+  .deck-accordion-btn.active { background-color: var(--navy-4); }
+  
+  .card-info { display: flex; align-items: center; gap: 10px; }
+  .card-thumb { width: 44px; height: 44px; border-radius: 6px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+  .card-name { font-weight: 700; font-size: 1rem; color: var(--text-bright); }
+  .card-meta { font-size: 0.8rem; color: var(--text-mid); font-weight: 600; margin-top: 2px; }
+
+  .btn-add, .btn-remove { border: none; padding: 0.4rem 0.8rem; border-radius: 6px; font-weight: 800; cursor: pointer; transition: 0.2s; font-family: inherit; font-size: 0.85rem; }
+  .btn-add { background: rgba(65, 195, 227, 0.15); color: var(--brand-main); border: 1px solid rgba(65, 195, 227, 0.3); }
+  .btn-add:hover { background: var(--brand-main); color: #0b111a; box-shadow: 0 0 10px rgba(65, 195, 227, 0.4); }
+  
+  .btn-remove { background: rgba(255, 82, 82, 0.1); border: 1px solid rgba(255, 82, 82, 0.3); color: var(--danger); }
+  .btn-remove:hover { background: var(--danger); color: #fff; box-shadow: 0 0 10px rgba(255, 82, 82, 0.4); }
+  
+  .btn-saved { background: transparent; color: var(--text-mid); border: 1px dashed var(--border-dim); cursor: default; }
+  .empty-state { text-align: center; color: var(--text-mid); font-style: italic; font-size: 1rem; padding: 2rem; background: rgba(0,0,0,0.2); border-radius: 8px; }
+  
+  .deck-accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background-color: var(--navy-2); }
+  .card-details-box { padding: 1.25rem; background: #e8eff8; background-image: radial-gradient(#d1dce8 1px, transparent 1px); background-size: 20px 20px; border-top: 1px solid var(--border-dim); }
+  .proxy-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #8fa3bf; padding-bottom: 0.75rem; margin-bottom: 1rem; }
+  .proxy-name { font-size: 1.4rem; font-weight: 800; color: #0a0d1a; line-height: 1.1; }
+  .proxy-stats { font-size: 1rem; font-weight: 800; color: #4a5a70; }
+
+  .accordion-icon { font-size: 1.5rem; font-weight: 400; color: var(--text-mid); width: 24px; text-align: center; transition: transform 0.3s ease-in-out; display: inline-block; }
+  .deck-accordion-btn.active .accordion-icon { transform: rotate(45deg); color: var(--brand-main); }
+
+  .btn-export { background: var(--navy-4); color: var(--text-bright); border: 1px solid var(--border-dim); width: 100%; margin-bottom: 0.75rem; border-radius: 8px; font-weight: 800; padding: 0.8rem; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; font-family: inherit; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+  .btn-export:hover { background: var(--brand-hover); border-color: var(--brand-hover); color: #ffffff;}
+  
+  .btn-clear { background: rgba(255, 82, 82, 0.1); color: var(--danger); border: 1px solid rgba(255, 82, 82, 0.3); border-radius: 8px; font-weight: 800; padding: 0.8rem; cursor: pointer; transition: all 0.2s ease; font-family: inherit; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .btn-clear:hover { background: var(--danger); color: #fff; box-shadow: 0 0 16px rgba(255, 82, 82, 0.4); }
+
+  /* ── MOBILE RESPONSIVE FIXES ── */
+  @media (max-width: 1024px) {
+      .body-wrapper { height: auto; overflow: auto; } 
+      .main-wrapper { grid-template-columns: 1fr; height: auto; display: flex; flex-direction: column; }
+      .preview-panel { position: static; max-width: 250px; margin: 0 auto; display: none; } 
+      .panel { height: 65vh; min-height: 500px; } 
+  }
+   @media (max-width: 768px) {
+      .topbar { display: grid; justify-content: stretch; height: auto; padding: 12px 16px; gap: 12px; }
+      .topbar-left { flex: 100%; flex-direction: column; align-items: center; gap: 12px; }
+      .topbar-center { flex: 100%; order: 3; }
+      .topbar-right { display: none; }
+      .tabs { display: grid; grid-auto-flow: column; justify-content: stretch; gap: 4px; }
+      .tab { display: grid; grid-auto-flow: row; justify-content: stretch; gap: 4px; }
+      body{ overflow: auto;}
+      .btn-export{ font-size: 12px;}
+      .btn-clear{font-size: 12px;}
+  }
+  /* ── ABOUT / CREDITS BUTTON ── */
+  .btn-about-header {
+    background: transparent; border: 1px solid var(--border-dim); color: var(--text-mid);
+    padding: 8px 14px; border-radius: 6px; font-family: 'nunito', sans-serif; font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px;
+  }
+  .btn-about-header:hover { background: rgba(255,255,255,0.05); color: var(--text-bright); border-color: var(--border-mid); }
+  .btn-about-header i { font-size: 16px; color: var(--brand-main); }
+
+  /* ── ABOUT CREDITS MODAL ── */
+  .about-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+    z-index: 2999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  .about-overlay.open { opacity: 1; pointer-events: auto; }
+  
+  .about-modal {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%) scale(0.95);
+    background: var(--navy-2); border: 1px solid var(--border-mid);
+    border-radius: 16px; width: 90%; max-width: 400px;
+    z-index: 3000; opacity: 0; pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; overflow: hidden;
+  }
+  .about-modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+  
+  .about-header {
+    background: var(--navy-3); padding: 16px 20px; border-bottom: 1px solid var(--border-dim);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .about-header h3 { font-size: 18px; font-weight: 800; color: var(--brand-main); margin: 0; }
+  .btn-close-modal {
+    background: transparent; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer; transition: 0.2s;
+  }
+  .btn-close-modal:hover { color: var(--danger); transform: scale(1.1); }
+  
+  .about-content { padding: 24px 20px; font-size: 15px; color: var(--text-bright); line-height: 1.6; }
+  .about-content p { margin-bottom: 16px; }
+  .about-content strong { color: var(--text-bright); font-weight: 800; }
+  .about-content a {
+    color: var(--brand-main); text-decoration: none; font-weight: 700; display: inline-block; margin-top: 4px; border-bottom: 1px dashed var(--border-dim); transition: 0.2s;
+  }
+  .about-content a:hover { color: var(--brand-hover); border-color: var(--brand-hover); }
+
+  /* UPDATE THIS INSIDE YOUR @media (max-width: 768px) BLOCK: */
+  @media (max-width: 768px) {
+      .topbar-right { display: flex !important; justify-content: center; width: 100%; order: 4; margin-top: 8px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo">Hololive OCG <span>DB</span></div>
+        <nav class="tabs">
+        <a href="index.html" class="tab">
+          <span class="tab-title">Modern Library</span>
+        </a>
+        <a href="card-library.html" class="tab active">
+          <span class="tab-title">Simple Library</span>
+        </a>
+      </nav>
+    </div>
+    
+    <div class="topbar-center">
+      <div class="search-bar">
+        <i class="ti ti-search"></i>
+        <input type="search" id="search-db-input" placeholder="Search name, ID, type, or #tag (e.g. #buzz)..." />
+      </div>
+    </div>
+    
+    <div class="topbar-right">
+      <button class="btn-about-header" onclick="openAboutModal()">
+          <i class="ti ti-info-circle"></i> About
+      </button>
+    </div>
+  </header>
+
+  <div class="body-wrapper">
+    <div class="main-wrapper">
+        
+        <div class="preview-panel">
+            <div id="preview-container">
+                <img id="large-card-preview" src="" onerror="this.style.display='none'; document.getElementById('preview-placeholder').style.display='block'; document.getElementById('preview-placeholder').innerText='Hover over a card to preview';" />
+                <span id="preview-placeholder" style="color: var(--text-mid); font-size: 1.1rem; font-weight: 600; text-align: center; padding: 1rem;">Hover a card to preview</span>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="deck-header">
+                <h3>Master Database</h3>
+            </div>
+            <div id="scanned-pool" class="card-list">
+                <div class="empty-state">Loading database...</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="deck-header">
+                <h3>Bookmarks</h3>
+                <div class="card-count"><span id="deck-count">0</span> Saved</div>
+            </div>
+            <div id="current-deck" class="card-list">
+            </div>
+        </div>
+
+    </div>
+  </div>
+  <!-- ABOUT CREDITS MODAL -->
+<div id="about-overlay" class="about-overlay" onclick="closeAboutModal()"></div>
+<div id="about-modal" class="about-modal">
+    <div class="about-header">
+        <h3>About hOCG DB</h3>
+        <button class="btn-close-modal" onclick="closeAboutModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="about-content">
+        <p><strong>Developed by:</strong> Siuspras</p>
+        <p><strong>Translations provided by:</strong> ogbajoj<br>
+           <a href="https://docs.google.com/spreadsheets/d/1IdaueY-Jw8JXjYLOhA9hUd2w0VRBao9Z1URJwmCWJ64/edit?pli=1&gid=975361685#gid=975361685" target="_blank"><i class="ti ti-external-link"></i> View Translation Sheet</a>
+        </p>
+        <p><strong>Card Images sourced from:</strong> Yuyu-tei<br>
+           <a href="https://yuyu-tei.jp/top/hocg" target="_blank"><i class="ti ti-external-link"></i> Visit Yuyu-tei</a>
+        </p>
+        
+        <!-- VISITOR COUNTER -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border-dim);">
+            <span style="font-weight: 700; color: var(--text-mid); font-size: 14px;">Total Visitors</span>
+            <span id="visitor-count" style="font-weight: 800; color: var(--brand-main); font-size: 16px; background: var(--navy-4); padding: 2px 8px; border-radius: 4px; border: 0.5px solid var(--border-mid);">...</span>
+        </div>
+
+        <hr style="border-color: var(--border-dim); margin: 20px 0;">
+        <p style="font-size: 12px; color: var(--text-dim); margin: 0; line-height: 1.4;">
+            This is an unofficial fan-made application. Not affiliated with or endorsed by COVER Corp. or Hololive Production. All intellectual property belongs to their respective owners.
+        </p>
+    </div>
+</div>
+
+  <script>
+      const csvFilesToLoad = [
+          'hBP01.csv', 'hBP02.csv', 'hBP03.csv', 'hBP04.csv',
+          'hBP05.csv', 'hBP06.csv', 'hBP07.csv', 'hBP08.csv', 'hSD.csv'
+      ];
+
+      let masterCardPool = [];
+      let currentFilteredPool = [];
+      let renderedCount = 0;
+      const CHUNK_SIZE = 30; 
+
+      const synergyDictionary = {
+          "holox": ["la+", "lui", "koyori", "chloe", "iroha", "holox"],
+          "myth": ["calliope", "kiara", "ina'nis", "gura", "amelia", "myth"],
+          "promise": ["fauna", "kronii", "mumei", "baelz", "irys", "promise"],
+          "advent": ["shiori", "bijou", "nerissa", "fuwawa", "mococo", "fuwamoco", "advent"],
+          "justice": ["elizabeth", "gigi", "cecilia", "raora", "justice"],
+          "gamers": ["fubuki", "mio", "okayu", "korone", "gamers"],
+          "fantasy": ["pekora", "flare", "noel", "marine", "fantasy"],
+          "gen 0": ["sora", "robocosan", "azki", "miko", "suisei"],
+          "gen 1": ["mel", "fubuki", "matsuri", "aki", "haato"],
+          "gen 2": ["aqua", "shion", "ayame", "choco", "subaru"]
+      };
+
+      function getSynergyTerms(query) {
+          const lowerQuery = query.toLowerCase().trim();
+          for (const member in synergyDictionary) {
+              if (member.includes(lowerQuery) || lowerQuery.includes(member)) {
+                  return synergyDictionary[member];
+              }
+          }
+          return [lowerQuery];
+      }
+
+      function getTypeColor(type) {
+          if (type === "Oshi") return "var(--holo-rose)";
+          if (type === "Holomem") return "var(--holo-blue)";
+          if (type === "Support") return "var(--holo-teal)";
+          if (type === "Cheer") return "var(--holo-orange)";
+          return "var(--border-dim)";
+      }
+
+      function parseCSV(text) {
+          let result = []; let row = []; let inQuotes = false; let val = '';
+          for (let i = 0; i < text.length; i++) {
+              let char = text[i];
+              if (inQuotes) {
+                  if (char === '"') {
+                      if (i + 1 < text.length && text[i + 1] === '"') { val += '"'; i++; } 
+                      else { inQuotes = false; }
+                  } else { val += char; }
+              } else {
+                  if (char === '"') { inQuotes = true; } 
+                  else if (char === ',') { row.push(val.trim()); val = ''; } 
+                  else if (char === '\n' || char === '\r') {
+                      row.push(val.trim()); result.push(row); row = []; val = '';
+                      if (char === '\r' && i + 1 < text.length && text[i + 1] === '\n') i++; 
+                  } else { val += char; }
+              }
+          }
+          if (val !== '' || row.length > 0) { row.push(val.trim()); result.push(row); }
+          return result;
+      }
+
+      async function initializeDatabase() {
+          let combinedDatabase = [];
+          for (const fileName of csvFilesToLoad) {
+              try {
+                  const response = await fetch(fileName);
+                  if (!response.ok) continue;
+                  const text = await response.text();
+                  if (text.trim().toLowerCase().startsWith("<!doctype html")) continue;
+
+                  const rows = parseCSV(text);
+                  if (rows.length < 2) continue;
+
+                  const headers = rows[0].map(h => h.replace(/"/g, '').trim().toLowerCase());
+                  let typeIdx = 3, hpIdx = 6, tagsIdx = -1, textIdx = 8; 
+                  for (let i = 0; i < headers.length; i++) {
+                      if (headers[i].includes("type")) typeIdx = i;
+                      if (headers[i].includes("life") || headers[i].includes("hp")) hpIdx = i;
+                      if (headers[i].includes("tag")) tagsIdx = i;
+                      if (headers[i].includes("text")) textIdx = i;
+                  }
+                  
+                  for (let i = 1; i < rows.length; i++) {
+                      const cols = rows[i];
+                      if (cols.length < 3) continue; 
+                      
+                      const setCode = cols[0]; const nameRaw = cols[1];
+                      if (!setCode || !nameRaw || setCode.toLowerCase().includes("setcode")) continue; 
+                      
+                      let cardName = nameRaw;
+                      const match = nameRaw.match(/\((.*?)\)/);
+                      if (match) cardName = match[1].trim();
+                      
+                      const typeRaw = cols[typeIdx] || "";
+                      let cardType = "Unknown"; let bloomLevel = null;
+                      
+                      if (typeRaw.toLowerCase().includes("holomem")) {
+                          if (typeRaw.includes("Oshi")) cardType = "Oshi";
+                          else {
+                              cardType = "Holomem";
+                              if (typeRaw.includes("Debut")) bloomLevel = "Debut";
+                              if (typeRaw.includes("1st")) bloomLevel = "1st";
+                              if (typeRaw.includes("2nd")) bloomLevel = "2nd";
+                              if (typeRaw.includes("Spot")) bloomLevel = "Spot";
+                          }
+                      } else if (typeRaw.includes("Support")) cardType = "Support";
+                      else if (typeRaw.includes("Cheer")) cardType = "Cheer";
+                      
+                      const hpRaw = cols[hpIdx];
+                      let hp = hpRaw ? parseInt(hpRaw.replace(/,/g, '')) : null;
+                      let rawSkills = cols[textIdx] || "None";
+                      let rawTags = tagsIdx !== -1 ? (cols[tagsIdx] || "") : "";
+                      let finalSkillsText = rawTags ? `${rawTags} | ${rawSkills}` : rawSkills;
+                      
+                      combinedDatabase.push({
+                          card_name: cardName, card_type: cardType, bloom_level: bloomLevel,
+                          card_id: setCode.trim(), hp: isNaN(hp) ? null : hp, skills_text: finalSkillsText, thumbnail: null,
+                          raw_type: typeRaw.toLowerCase() 
+                      });
+                  }
+              } catch (error) {}
+          }
+          masterCardPool = combinedDatabase;
+          document.getElementById("search-db-input").value = "";
+          renderCardPool("");
+      }
+
+      function getDeck() { return localStorage.getItem('ocgCustomDeck') ? JSON.parse(localStorage.getItem('ocgCustomDeck')) : []; }
+      
+      function saveDeck(deckArray) { 
+          localStorage.setItem('ocgCustomDeck', JSON.stringify(deckArray)); 
+          renderDeck(); updateBookmarkButtons(); 
+      }
+      
+      function addCardToDeck(cardData) {
+          let deck = getDeck();
+          if (!deck.some(card => card.card_id === cardData.card_id)) { deck.push(cardData); saveDeck(deck); }
+      }
+      
+      function removeCardFromDeck(index) {
+          let deck = getDeck(); deck.splice(index, 1); saveDeck(deck);
+      }
+
+      function updateBookmarkButtons() {
+          const savedCardIds = new Set(getDeck().map(c => c.card_id));
+          const buttons = document.querySelectorAll('.btn-bookmark-toggle');
+          buttons.forEach(btn => {
+              const cardId = btn.getAttribute('data-card-id');
+              if (savedCardIds.has(cardId)) {
+                  btn.outerHTML = `<button class="btn-saved btn-add btn-bookmark-toggle" data-card-id="${cardId}" onclick="event.stopPropagation();">✓</button>`;
+              } else {
+                  btn.outerHTML = `<button class="btn-add btn-bookmark-toggle" data-card-id="${cardId}" onclick='event.stopPropagation(); window.handleAddClick("${cardId}")'>☆</button>`;
+              }
+          });
+      }
+
+      window.setPreview = function(imagePath) {
+          const previewImg = document.getElementById("large-card-preview");
+          const placeholder = document.getElementById("preview-placeholder");
+          if (previewImg && placeholder) {
+              previewImg.style.display = "block"; placeholder.style.display = "none"; previewImg.src = imagePath;
+          }
+      };
+
+      function formatSkillText(card) {
+          let rawText = card.skills_text || "None";
+          let text = rawText.toString().replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
+          let tags = ""; let mainText = text;
+
+          if (mainText.includes('|')) {
+              let parts = mainText.split('|'); tags = parts[0].trim(); mainText = parts.slice(1).join('|').trim();
+          }
+
+          let hashMatch = mainText.match(/#[a-zA-Z0-9_]+/g);
+          if (hashMatch) {
+          let extractedTags = hashMatch.join(" ");
+          if (tags) { tags = [...new Set(tags.split(/\s+/).concat(extractedTags.split(/\s+/)))].join(' '); } else { tags = extractedTags; }
+          // FIX: We no longer delete the tags from mainText so they stay visible in the sentences!
+          mainText = mainText.replace(/(<br>\s*)+$/g, '').replace(/^(<br>\s*)+/g, '').trim();
+      }
+
+          let skillText = mainText; let artsText = "-"; let isHolomem = card.card_type === "Holomem";
+
+          if (isHolomem) {
+              let artsIndex = mainText.search(/(?:^|<br>)\s*Arts(?:\s|:)/);
+              if (artsIndex !== -1) {
+                  skillText = mainText.substring(0, artsIndex).trim();
+                  artsText = mainText.substring(artsIndex).replace(/^(?:<br>)?\s*Arts:?\s*/, '').trim();
+              } else if (mainText.includes("Arts:") || mainText.includes("Arts ")) {
+                  let splitIndex = mainText.indexOf("Arts:"); if (splitIndex === -1) splitIndex = mainText.indexOf("Arts ");
+                  if (splitIndex !== -1 && splitIndex !== 0) {
+                      skillText = mainText.substring(0, splitIndex).trim(); artsText = mainText.substring(splitIndex + 5).trim();
+                  } else if (splitIndex === 0) { skillText = "None"; artsText = mainText.substring(5).trim(); }
+              }
+          }
+
+          if (skillText === "" || skillText === "-" || skillText === "<br>") skillText = "No skills listed.";
+          if (skillText.endsWith("<br>")) skillText = skillText.substring(0, skillText.length - 4).trim();
+          if (skillText.startsWith("<br>")) skillText = skillText.substring(4).trim();
+
+          let isLimited = false;
+          if (/\blimited\b/i.test(skillText) || /#?limited/i.test(tags)) {
+              isLimited = true; tags = tags.replace(/#?limited/i, '').replace(/\s+/g, ' ').trim();
+              skillText = skillText.replace(/^Limited[:\.\-]?\s*(?:<br>\s*)*/i, '');
+              skillText = skillText.replace(/<br>\s*Limited[:\.\-]?\s*(?:<br>\s*)*/i, '<br>');
+              if (skillText === "" || skillText === "<br>") skillText = "No skills listed.";
+          }
+
+          let label1 = "Card Effect"; let label1Color = "var(--holo-blue)"; let label1TextColor = "#fff";
+          let label2 = "Arts Skill"; let label2Color = "var(--holo-romance)"; let label2TextColor = "#fff";
+
+          if (isHolomem) {
+              if (skillText.includes("Bloom Effect") || skillText.includes("Bloom effect")) { label1 = "Bloom Effect"; skillText = skillText.replace(/Bloom [Ee]ffect:?\s*/, ''); label1Color = "var(--holo-blue)"; } 
+              else if (skillText.includes("Collab Effect") || skillText.includes("Collab effect")) { label1 = "Collab Effect"; skillText = skillText.replace(/Collab [Ee]ffect:?\s*/, ''); label1Color = "var(--danger)"; } 
+              else if (skillText.includes("Gift")) { label1 = "Gift"; skillText = skillText.replace(/Gift:?\s*/, ''); label1Color = "var(--holo-teal)"; label1TextColor = "#FFF"; } 
+              else if (skillText !== "None" && skillText !== "No skills listed.") { label1 = "Auto Effect"; skillText = skillText.replace(/Auto [Ee]ffect:?\s*/, ''); label1Color = "var(--holo-orange)"; label1TextColor = "#000"; }
+          }
+
+          let formattedTagsHtml = "";
+          if (tags && tags.trim() !== "") {
+              formattedTagsHtml = `<div style="background: #FFFFFF; border: 1px solid #d1dce8; border-radius: 8px; padding: 0.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 0.75rem;"><div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 800; margin-bottom: 0.5rem; color: #000; background: var(--holo-orange); display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px;">Tag</div><div style="font-weight: 800; color: var(--holo-blue); line-height: 1.5; font-size: 1.05rem;">${tags}</div></div>`;
+          }
+
+          let limitedBadgeHtml = isLimited ? `<div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 800; margin-bottom: 0.5rem; color: #fff; background: var(--danger); display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; margin-left: 0.5rem;">Limited</div>` : "";
+
+          let formattedSkillHtml = "";
+          if (skillText !== "None" && skillText !== "No skills listed." && skillText.trim() !== "") {
+              formattedSkillHtml = `<div style="background: #FFFFFF; border: 1px solid #d1dce8; border-radius: 8px; padding: 0.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 0.75rem;"><div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 800; margin-bottom: 0.5rem; color: ${label1TextColor}; background: ${label1Color}; display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px;">${label1}</div>${limitedBadgeHtml}<div style="font-weight: 600; color: #171e30; line-height: 1.5; font-size: 1.05rem;">${skillText}</div></div>`;
+          }
+
+          let formattedArtsHtml = (artsText !== "-" && artsText !== "") ? `<div style="background: #FFFFFF; border: 1px solid #d1dce8; border-radius: 8px; padding: 0.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02);"><div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 800; margin-bottom: 0.5rem; color: ${label2TextColor}; background: ${label2Color}; display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px;">${label2}</div><div style="font-weight: 600; color: #171e30; line-height: 1.5; font-size: 1.05rem;">${artsText}</div></div>` : "";
+
+          return { skillText, artsText, isLimited, formattedTagsHtml, formattedSkillHtml, formattedArtsHtml };
+      }
+
+      function renderCardPool(searchQuery = "") {
+          const poolContainer = document.getElementById("scanned-pool");
+          if (masterCardPool.length === 0) return;
+          const searchTerms = searchQuery.trim() !== "" ? getSynergyTerms(searchQuery) : [];
+          
+          currentFilteredPool = masterCardPool.filter(card => {
+              const nameSafe = card.card_name ? card.card_name.toLowerCase() : ""; 
+              const idSafe = card.card_id ? card.card_id.toLowerCase() : "";
+              const typeSafe = card.raw_type ? card.raw_type : (card.card_type ? card.card_type.toLowerCase() : "");
+              const skillSafe = card.skills_text ? card.skills_text.toLowerCase() : "";
+              const bloomSafe = card.bloom_level ? card.bloom_level.toLowerCase() : "";
+              
+              if (searchTerms.length === 0) return true;
+
+              return searchTerms.some(term => {
+                  const strictTypes = ["oshi", "holomem", "support", "cheer", "tool", "event", "mascot", "fan", "staff", "item", "limited", "debut", "1st", "2nd", "spot"];
+                  if (strictTypes.includes(term)) return typeSafe.includes(term) || bloomSafe.includes(term);
+                  if (term.startsWith('#')) return skillSafe.includes(term) || nameSafe.includes(term) || bloomSafe.includes(term.substring(1));
+                  return nameSafe.includes(term) || idSafe.includes(term) || typeSafe.includes(term) || skillSafe.includes(term) || bloomSafe.includes(term);
+              });
+          });
+
+          poolContainer.innerHTML = ""; renderedCount = 0;
+          if (currentFilteredPool.length === 0) { poolContainer.innerHTML = `<div class="empty-state">No cards found matching "${searchQuery}".</div>`; return; }
+          loadNextChunk(); 
+      }
+
+      function loadNextChunk() {
+          const poolContainer = document.getElementById("scanned-pool");
+          const currentBookmarks = getDeck();
+          const savedCardIds = new Set(currentBookmarks.map(c => c.card_id));
+          const endIndex = Math.min(renderedCount + CHUNK_SIZE, currentFilteredPool.length);
+          let htmlBuilder = ""; 
+
+          for (let i = renderedCount; i < endIndex; i++) {
+              const card = currentFilteredPool[i];
+              const isSaved = savedCardIds.has(card.card_id);
+              const type = card.card_type || "Type";
+              const level = card.bloom_level ? `[${card.bloom_level}] ` : "";
+              const id = card.card_id ? ` • ${card.card_id}` : "";
+              const typeColor = getTypeColor(type);
+              
+              const setPrefix = card.card_id.split('-')[0];
+              const imagePath = card.thumbnail ? card.thumbnail : `images/${setPrefix}/${card.card_id}.jpg`;
+              
+              const imgTag = `<img src="${imagePath}" loading="lazy" class="card-thumb" onerror="this.onerror=null; this.outerHTML='<div class=\\'card-thumb\\' style=\\'background:#333; display:flex; align-items:center; justify-content:center; font-size:10px; color:#777;\\'>IMG</div>';"/>`;
+              
+              const { formattedTagsHtml, formattedSkillHtml, formattedArtsHtml } = formatSkillText(card);
+              
+              let btnHtml = isSaved ? `<button class="btn-saved btn-add btn-bookmark-toggle" data-card-id="${card.card_id}" onclick="event.stopPropagation();">✓</button>` : `<button class="btn-add btn-bookmark-toggle" data-card-id="${card.card_id}" onclick='event.stopPropagation(); window.handleAddClick("${card.card_id}")'>☆</button>`;
+
+              htmlBuilder += `
+                  <div class="deck-history-item" style="border-left-color: ${typeColor};" onmouseenter="setPreview('${imagePath}')">
+                      <div class="deck-accordion-btn" onclick="toggleDeckAccordion(this); setPreview('${imagePath}')">
+                          <div class="card-info">
+                              ${imgTag}
+                              <div>
+                                  <div class="card-name">${level}${card.card_name}</div>
+                                  <div class="card-meta">${type}${id}</div>
+                              </div>
+                          </div>
+                          <div style="display: flex; align-items: center; gap: 8px;">
+                              ${btnHtml}
+                              <span class="accordion-icon">+</span>
+                          </div>
+                      </div>
+                      <div class="deck-accordion-content">
+                          <div class="card-details-box">
+                              <div class="proxy-header">
+                                  <div class="proxy-name">${level}${card.card_name}</div>
+                                  <div class="proxy-stats">${card.card_id}</div>
+                              </div>
+                              ${formattedTagsHtml}
+                              ${formattedSkillHtml}
+                              ${formattedArtsHtml}
+                          </div>
+                      </div>
+                  </div>
+              `;
+          }
+          poolContainer.insertAdjacentHTML('beforeend', htmlBuilder); renderedCount = endIndex;
+      }
+
+      document.getElementById("scanned-pool").addEventListener('scroll', function() {
+          if (this.scrollTop + this.clientHeight >= this.scrollHeight - 400) {
+              if (renderedCount < currentFilteredPool.length) loadNextChunk();
+          }
+      });
+
+      function renderDeck() {
+          const deckContainer = document.getElementById("current-deck");
+          const countDisplay = document.getElementById("deck-count");
+          const deck = getDeck(); countDisplay.innerText = deck.length;
+
+          if (deck.length === 0) {
+              deckContainer.innerHTML = `<div class="empty-state">You haven't bookmarked any cards yet. Search for a card in the database and tap "☆".</div>`; return;
+          }
+
+          let htmlOutput = `<div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem; flex-shrink: 0;"><button onclick="window.exportDecklist()" class="btn-export" style="margin-bottom: 0; flex: 1;">📋 Copy to Clipboard</button><button onclick="window.clearAllBookmarks()" class="btn-clear" title="Clear All Bookmarks">🗑️ Clear All</button></div>`;
+
+          deck.forEach((card, index) => {
+              const type = card.card_type || "Type";
+              const level = card.bloom_level ? `[${card.bloom_level}] ` : "";
+              const typeColor = getTypeColor(type);
+              const setPrefix = card.card_id.split('-')[0];
+              const imagePath = card.thumbnail ? card.thumbnail : `images/${setPrefix}/${card.card_id}.jpg`;
+              const imgTag = `<img src="${imagePath}" loading="lazy" class="card-thumb" onerror="this.onerror=null; this.outerHTML='<div class=\\'card-thumb\\' style=\\'background:#333; display:flex; align-items:center; justify-content:center; font-size:10px; color:#777;\\'>IMG</div>';"/>`;
+              const { formattedTagsHtml, formattedSkillHtml, formattedArtsHtml } = formatSkillText(card);
+
+              htmlOutput += `
+                  <div class="deck-history-item" style="border-left-color: ${typeColor};" onmouseenter="setPreview('${imagePath}')">
+                      <div class="deck-accordion-btn" onclick="toggleDeckAccordion(this)">
+                          <div class="card-info">
+                              ${imgTag}
+                              <div>
+                                  <div class="card-name">${level}${card.card_name}</div>
+                                  <div class="card-meta">${type}</div>
+                              </div>
+                          </div>
+                          <div style="display: flex; align-items: center; gap: 8px;">
+                              <button class="btn-remove" onclick='handleRemoveClick(event, ${index})'>-</button>
+                              <span class="accordion-icon">+</span>
+                          </div>
+                      </div>
+                      <div class="deck-accordion-content">
+                          <div class="card-details-box">
+                              <div class="proxy-header">
+                                  <div class="proxy-name">${level}${card.card_name}</div>
+                                  <div class="proxy-stats">${card.card_id}</div>
+                              </div>
+                              ${formattedTagsHtml}
+                              ${formattedSkillHtml}
+                              ${formattedArtsHtml}
+                          </div>
+                      </div>
+                  </div>
+              `;
+          });
+          deckContainer.innerHTML = htmlOutput;
+      }
+
+      window.exportDecklist = function() {
+          const deck = getDeck(); if (deck.length === 0) return;
+          let exportText = "My Bookmarked Cards:\n\n";
+          deck.forEach(card => {
+              const level = card.bloom_level ? `[${card.bloom_level}] ` : "";
+              const { skillText, artsText, isLimited } = formatSkillText(card);
+              exportText += `Code: ${card.card_id}\nName: ${level}${card.card_name}\n`;
+              if (skillText !== "None" && skillText !== "No skills listed." && skillText.trim() !== "") {
+                  let limitedLabel = isLimited ? "[LIMITED] " : "";
+                  exportText += `Skill:\n${limitedLabel}${skillText.replace(/<br>/g, '\n')}\n`;
+              }
+              if(artsText !== "-" && artsText !== "") exportText += `Arts:\n${artsText.replace('Arts:', '').trim().replace(/<br>/g, '\n')}\n`;
+              exportText += `\n`;
+          });
+          navigator.clipboard.writeText(exportText.trim()).then(() => alert("Bookmark list copied to your clipboard!"));
+      };
+
+      window.clearAllBookmarks = function() {
+          if (confirm("Are you sure you want to remove ALL bookmarked cards?")) saveDeck([]);
+      };
+
+      let searchTimeout;
+      document.getElementById("search-db-input").addEventListener("input", (e) => {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => { renderCardPool(e.target.value); }, 150);
+      });
+      
+      window.handleAddClick = function(cardId) { const cardToCopy = masterCardPool.find(c => c.card_id === cardId); if(cardToCopy) addCardToDeck(cardToCopy); };
+      window.handleRemoveClick = function(event, deckIndex) { event.stopPropagation(); removeCardFromDeck(deckIndex); };
+
+      window.toggleDeckAccordion = function(element) {
+          const allActiveAccordions = document.querySelectorAll('.deck-accordion-btn.active');
+          allActiveAccordions.forEach(acc => {
+              if (acc !== element) { acc.classList.remove("active"); acc.nextElementSibling.style.maxHeight = null; }
+          });
+          element.classList.toggle("active");
+          const content = element.nextElementSibling;
+          if (element.classList.contains("active")) {
+              content.style.maxHeight = (content.scrollHeight + 150) + "px";
+              setTimeout(() => { element.scrollIntoView({ behavior: "smooth", block: "center" }); }, 250);
+          } else { content.style.maxHeight = null; }
+      };
+
+      initializeDatabase();
+      /* ── ABOUT MODAL LOGIC ── */
+      window.openAboutModal = function() {
+      document.getElementById("about-modal").classList.add("open");
+      document.getElementById("about-overlay").classList.add("open");
+    };
+      window.closeAboutModal = function() {
+      document.getElementById("about-modal").classList.remove("open");
+      document.getElementById("about-overlay").classList.remove("open");
+    };
+
+    /* ── Visitor Counter── */
+    async function updateVisitorCounter() {
+      const counterEl = document.getElementById("visitor-count");
+      if (!counterEl) return;
+      
+      try {
+          const response = await fetch("https://api.counterapi.dev/v1/hocg_db_siuspras/visits/up");
+          if (response.ok) {
+              const data = await response.json();
+              let count = data.count;
+              let displayStr = "";
+              
+              if (count < 10) {
+                  // For 1-9 visitors, just show the number
+                  displayStr = count.toString();
+              } else {
+                  // Find the magnitude (10, 100, 1000, 10000, etc.)
+                  const magnitude = Math.pow(10, Math.floor(Math.log10(count)));
+                  
+                  // Round down to the nearest leading digit based on that magnitude
+                  const rounded = Math.floor(count / magnitude) * magnitude;
+                  
+                  // Add commas for large numbers and append the "+"
+                  displayStr = rounded.toLocaleString() + "+";
+              }
+              
+              counterEl.innerText = displayStr;
+          } else {
+              counterEl.innerText = "Online";
+          }
+      } catch (error) {
+          counterEl.innerText = "1"; 
+      }
+  }
+
+  // Call it right at the bottom of your script setup
+  updateVisitorCounter();
+  </script>
+</body>
+</html>
